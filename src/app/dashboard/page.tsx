@@ -36,7 +36,7 @@ export default function Dashboard() {
   // Show loading while checking auth state
   if (loading) {
     return (
-      <main className="min-h-screen bg-core-gradient flex items-center justify-center">
+      <main className="min-h-screen  flex items-center justify-center">
         <Loading size="lg" text="Loading your dashboard..." />
       </main>
     );
@@ -48,7 +48,7 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="min-h-screen bg-core-gradient">
+    <main className="min-h-screen ">
       {/* Navigation Header */}
       <nav className="bg-white/90 backdrop-blur-sm border-b border-primary-100 sticky top-0 z-40">
         <Container>

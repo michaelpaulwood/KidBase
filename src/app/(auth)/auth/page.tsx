@@ -119,7 +119,7 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="min-h-screen bg-core-gradient">
+    <main className="min-h-screen ">
       <Container>
         <div className="min-h-screen flex flex-col justify-center py-12">
           {/* Header */}

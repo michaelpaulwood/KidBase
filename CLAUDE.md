@@ -77,7 +77,7 @@ KidBase/
 - Zero Next.js template bloat
 - Production-ready error handling
 
-## Current Status: v3.0 Modern 3D Design System ✅
+## Current Status: v3.1 Unified Background & Static Components ✅
 
 All major features implemented:
 - ✅ Modern 3D "Brutal" design system with enhanced shadows
@@ -89,6 +89,8 @@ All major features implemented:
 - ✅ Protected routing
 - ✅ Responsive components
 - ✅ Production deployment ready
+- ✅ Unified background color (#fef7ed) across entire site
+- ✅ Static feature cards and design elements (no hover animations)
 
 ## Firebase Setup Required
 
@@ -97,6 +99,12 @@ All major features implemented:
 3. Create Firestore database
 4. Configure environment variables in `.env.local`
 5. Apply Firestore security rules for user documents
+
+## Git Commit Instructions
+
+NEVER include "Generated with Claude Code" or "Co-Authored-By: Claude" in commit messages.
+All commits should be attributed only to the human author (Michael Paul Wood).
+Keep commit messages professional and focused on the actual changes made.
 
 ## Author
 

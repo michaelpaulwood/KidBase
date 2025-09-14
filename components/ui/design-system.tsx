@@ -32,10 +32,10 @@ export function Section({
   padding = 'lg'
 }: SectionProps) {
   const backgroundClasses = {
-    default: 'bg-core-gradient',
-    warm: 'bg-warm-gradient', 
-    cool: 'bg-cool-gradient',
-    white: 'bg-white'
+    default: '',
+    warm: '',
+    cool: '',
+    white: ''
   };
 
   const paddingClasses = {

@@ -13,13 +13,9 @@ export default function Home() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleViewElements = () => {
-    // Redirect to elements page
-    window.location.href = '/elements';
-  };
 
   return (
-    <main className="min-h-screen bg-hero-gradient">
+    <main className="min-h-screen">
       {/* Navigation */}
       <nav className="relative z-10 bg-white/90 backdrop-blur-sm">
         <Container>
@@ -73,12 +69,11 @@ export default function Home() {
                   🚀 Get Started
                 </button>
               </Link>
-              <button
-                onClick={handleViewElements}
-                className="bg-success-500 hover:bg-success-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0"
-              >
-                🎨 View Elements
-              </button>
+              <Link href="/elements">
+                <button className="bg-success-500 hover:bg-success-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
+                  🎨 View Elements
+                </button>
+              </Link>
             </div>
           </div>
         </Container>
@@ -98,7 +93,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Kid-Friendly Design */}
-            <div className="bg-primary-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-primary-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">⚡</div>
               <h3 className="text-2xl font-bold font-display mb-4">Kid-Friendly Design</h3>
               <p className="text-primary-100 leading-relaxed">
@@ -107,7 +102,7 @@ export default function Home() {
             </div>
 
             {/* Family Authentication */}
-            <div className="bg-success-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-success-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">👨‍👩‍👧‍👦</div>
               <h3 className="text-2xl font-bold font-display mb-4">Family Authentication</h3>
               <p className="text-success-100 leading-relaxed">
@@ -116,7 +111,7 @@ export default function Home() {
             </div>
 
             {/* Points & Rewards */}
-            <div className="bg-primary-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-primary-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">🏆</div>
               <h3 className="text-2xl font-bold font-display mb-4">Points & Rewards</h3>
               <p className="text-primary-100 leading-relaxed">
@@ -125,7 +120,7 @@ export default function Home() {
             </div>
 
             {/* Mobile First */}
-            <div className="bg-pink-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-pink-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">📱</div>
               <h3 className="text-2xl font-bold font-display mb-4">Mobile First</h3>
               <p className="text-pink-100 leading-relaxed">
@@ -134,7 +129,7 @@ export default function Home() {
             </div>
 
             {/* 3D Components */}
-            <div className="bg-cyan-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-cyan-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">🎯</div>
               <h3 className="text-2xl font-bold font-display mb-4">3D Components</h3>
               <p className="text-cyan-100 leading-relaxed">
@@ -143,7 +138,7 @@ export default function Home() {
             </div>
 
             {/* Ready to Deploy */}
-            <div className="bg-orange-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal hover:shadow-brutal-lg hover:-translate-x-2 hover:-translate-y-2 transition-all duration-300">
+            <div className="bg-orange-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">🚀</div>
               <h3 className="text-2xl font-bold font-display mb-4">Ready to Deploy</h3>
               <p className="text-orange-100 leading-relaxed">
@@ -159,7 +154,7 @@ export default function Home() {
         <Container>
           <div className="max-w-4xl mx-auto text-center">
             {/* Bordered CTA Box like in screenshot */}
-            <div className="border-4 border-black rounded-3xl p-12 bg-white shadow-2xl">
+            <div className="border-4 border-black rounded-3xl p-12 shadow-2xl">
               <Heading level={2} size="display" className="mb-8">
                 Ready to Build Something Amazing?
               </Heading>

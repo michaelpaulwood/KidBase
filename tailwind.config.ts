@@ -91,9 +91,9 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        'core-gradient': 'linear-gradient(180deg, #faf5ff 0%, #ffffff 30%, #ffffff 70%, #f0fdfa 100%)',
-        'kid-gradient': 'linear-gradient(135deg, #faf5ff 0%, #f0fdfa 25%, #fff7ed 50%, #fdf2f8 75%, #eff6ff 100%)',
-        'hero-gradient': 'linear-gradient(135deg, #ffffff 0%, #faf5ff 50%, #f0fdfa 100%)',
+        'core-gradient': '#fef7ed',
+        'kid-gradient': '#fef7ed',
+        'hero-gradient': '#fef7ed',
       },
       fontFamily: {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],

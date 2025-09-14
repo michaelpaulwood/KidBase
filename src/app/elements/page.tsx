@@ -7,9 +7,9 @@ import Footer from '../../../components/layout/footer';
 export default function DesignSystem() {
 
   return (
-    <main className="min-h-screen bg-hero-gradient">
+    <main className="min-h-screen">
       {/* Navigation */}
-      <nav className="relative z-10 bg-white/90 backdrop-blur-sm border-b-4 border-black shadow-brutal">
+      <nav className="relative z-10 /90 backdrop-blur-sm border-b-4 border-black shadow-brutal">
         <Container>
           <div className="flex justify-between items-center py-6">
             <Link href="/" className="text-3xl font-bold font-display bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
@@ -101,7 +101,7 @@ export default function DesignSystem() {
           <div className="mb-16">
             <Heading level={2} size="heading" className="mb-8 text-center">Typography</Heading>
 
-            <Card className="p-8">
+            <Card hover={false} className="p-8">
               <div className="space-y-8">
                 <div>
                   <h3 className="text-lg font-bold font-display mb-4 text-gray-600">Display Font (Inter)</h3>
@@ -137,7 +137,7 @@ export default function DesignSystem() {
             <Heading level={2} size="heading" className="mb-8 text-center">Button Components</Heading>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8">
+              <Card hover={false} className="p-8">
                 <h3 className="text-xl font-bold font-display mb-6">Button Variants</h3>
                 <div className="space-y-4">
                   <CoreButton variant="primary" size="lg">🚀 Primary Button</CoreButton>
@@ -147,7 +147,7 @@ export default function DesignSystem() {
                 </div>
               </Card>
 
-              <Card className="p-8">
+              <Card hover={false} className="p-8">
                 <h3 className="text-xl font-bold font-display mb-6">Button Sizes</h3>
                 <div className="space-y-4 flex flex-col items-start">
                   <CoreButton variant="primary" size="sm">Small</CoreButton>
@@ -167,12 +167,11 @@ export default function DesignSystem() {
           <div className="mb-16">
             <Heading level={2} size="heading" className="mb-8 text-center">Form Elements</Heading>
 
-            <Card className="max-w-2xl mx-auto p-8">
+            <Card hover={false} className="max-w-2xl mx-auto p-8">
               <div className="space-y-6">
                 <CoreInput
                   label="Text Input"
                   placeholder="Enter some text..."
-                  value={inputValue}
                 />
 
                 <CoreInput
@@ -212,7 +211,7 @@ export default function DesignSystem() {
             <Heading level={2} size="heading" className="mb-8 text-center">Card Components</Heading>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="text-center">
+              <Card hover={false} className="text-center">
                 <div className="text-4xl mb-4">🎯</div>
                 <h3 className="text-xl font-bold font-display mb-4">Basic Card</h3>
                 <p className="text-gray-600">A simple card with 3D shadow effects and rounded corners.</p>
@@ -224,7 +223,7 @@ export default function DesignSystem() {
                 <p className="text-primary-100">Cards can have custom backgrounds and styling.</p>
               </Card>
 
-              <Card className="text-center">
+              <Card hover={false} className="text-center">
                 <div className="text-4xl mb-4">🏆</div>
                 <h3 className="text-xl font-bold font-display mb-4">Hover Effects</h3>
                 <p className="text-gray-600">Interactive cards with 3D hover animations.</p>
@@ -257,12 +256,12 @@ export default function DesignSystem() {
             <Heading level={2} size="heading" className="mb-8 text-center">Shadow Effects</Heading>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-8 bg-white rounded-2xl border-4 border-black shadow-brutal text-center">
+              <div className="p-8  rounded-2xl border-4 border-black shadow-brutal text-center">
                 <h3 className="font-bold font-display mb-2">Brutal Shadow</h3>
                 <code className="text-sm text-gray-600">shadow-brutal</code>
               </div>
 
-              <div className="p-8 bg-white rounded-2xl border-4 border-black shadow-brutal-lg text-center">
+              <div className="p-8  rounded-2xl border-4 border-black shadow-brutal-lg text-center">
                 <h3 className="font-bold font-display mb-2">Large Brutal Shadow</h3>
                 <code className="text-sm text-gray-600">shadow-brutal-lg</code>
               </div>
@@ -283,7 +282,7 @@ export default function DesignSystem() {
             <Heading level={2} size="heading" className="mb-8 text-center">Usage Guidelines</Heading>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <Card className="p-8">
+              <Card hover={false} className="p-8">
                 <h3 className="text-xl font-bold font-display mb-4 text-success-600">✅ Do&apos;s</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li>• Use bright, kid-friendly colors</li>
@@ -295,7 +294,7 @@ export default function DesignSystem() {
                 </ul>
               </Card>
 
-              <Card className="p-8">
+              <Card hover={false} className="p-8">
                 <h3 className="text-xl font-bold font-display mb-4 text-pink-600">❌ Don&apos;ts</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li>• Avoid small, hard-to-tap elements</li>
