@@ -11,31 +11,33 @@ export default function Home() {
       <Section background="default" padding="xl">
         <Container>
           <div className="text-center space-y-12">
-            {/* Main Heading */}
+            {/* Main Heading - Gaming Style vs Layout */}
             <div className="space-y-6">
-              <Heading level={1} size="hero" className="leading-tight">
-                Build apps for{' '}
-                <span className="bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
-                  Families
-                </span>
-              </Heading>
+              <div className="font-black font-display leading-none">
+                <div
+                  className="bg-gradient-to-r from-secondary-600 via-pink-500 to-orange-500 bg-clip-text text-transparent -mb-2"
+                  style={{ fontSize: 'clamp(3.5rem, 12vw, 8rem)' }}
+                >
+                  KidBase
+                </div>
+                <div className="text-gray-900 text-center text-hero -mb-2">
+                  vs.
+                </div>
+                <div className="text-gray-900 text-hero">
+                  months wasted
+                </div>
+              </div>
 
               <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-4xl mx-auto">
-                The modern Next.js boilerplate designed for family apps. Kid-friendly UI,
-                parent controls, and points system - all ready to go.
+                While others debate frameworks, you'll be collecting user feedback. This isn't just a boilerplate—it's your unfair advantage.
               </p>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            {/* CTA Button */}
+            <div className="flex justify-center">
               <Link href="/auth">
                 <button className="bg-primary-500 hover:bg-primary-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
                   🚀 Get Started
-                </button>
-              </Link>
-              <Link href="/elements">
-                <button className="bg-success-500 hover:bg-success-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
-                  🎨 View Elements
                 </button>
               </Link>
             </div>
