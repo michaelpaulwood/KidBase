@@ -46,18 +46,21 @@ export default function Home() {
       </Section>
 
       {/* Features Section */}
-      <Section background="white" padding="lg" id="features">
+      <Section background="white" padding="md" id="features">
         <Container>
-          <div className="text-center mb-20">
-            <Heading level={2} size="display" className="mb-8">
-              Built for Families
-            </Heading>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to create engaging family applications with modern 3D design
-            </p>
-          </div>
+          <div className="max-w-6xl mx-auto">
+            {/* Bordered Features Box */}
+            <div className="border-4 border-black rounded-3xl p-12 shadow-2xl">
+              <div className="text-center mb-12">
+                <Heading level={2} size="display" className="mb-8">
+                  Built for Families
+                </Heading>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Everything you need to create engaging family applications with modern 3D design
+                </p>
+              </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Kid-Friendly Design */}
             <div className="bg-primary-500 text-white p-8 rounded-3xl border-4 border-black shadow-brutal">
               <div className="text-4xl mb-4">⚡</div>
@@ -111,12 +114,80 @@ export default function Home() {
                 Firebase configured, components built, just add your family logic
               </p>
             </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Design System Showcase Section */}
+      <Section background="white" padding="md" id="design-system">
+        <Container>
+          <div className="max-w-4xl mx-auto">
+            {/* Bordered Design System Box */}
+            <div className="border-4 border-black rounded-3xl p-12 shadow-2xl">
+              <div className="text-center mb-12">
+                <Heading level={2} size="display" className="mb-8">
+                  Ready-Made Kids Design System
+                </Heading>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Complete set of kid-friendly components, colors, and elements. Everything you need to build engaging family applications.
+                </p>
+              </div>
+
+              {/* Design System Preview */}
+              <div className="grid md:grid-cols-3 gap-8 mb-12">
+                {/* Colors Preview */}
+                <div className="text-center">
+                  <div className="flex justify-center space-x-2 mb-4">
+                    <div className="w-8 h-8 bg-primary-500 rounded-full border-2 border-black"></div>
+                    <div className="w-8 h-8 bg-success-500 rounded-full border-2 border-black"></div>
+                    <div className="w-8 h-8 bg-pink-500 rounded-full border-2 border-black"></div>
+                    <div className="w-8 h-8 bg-orange-500 rounded-full border-2 border-black"></div>
+                    <div className="w-8 h-8 bg-cyan-500 rounded-full border-2 border-black"></div>
+                  </div>
+                  <h3 className="text-lg font-bold font-display text-gray-800">Bright Color Palette</h3>
+                  <p className="text-sm text-gray-600">Kid-friendly, accessible colors</p>
+                </div>
+
+                {/* Button Preview */}
+                <div className="text-center">
+                  <div className="mb-4">
+                    <button className="bg-primary-500 text-white font-bold font-display py-2 px-4 rounded-xl text-sm border-2 border-black shadow-brutal">
+                      🎯 Sample Button
+                    </button>
+                  </div>
+                  <h3 className="text-lg font-bold font-display text-gray-800">3D Interactive Elements</h3>
+                  <p className="text-sm text-gray-600">Tactile, engaging components</p>
+                </div>
+
+                {/* Cards Preview */}
+                <div className="text-center">
+                  <div className="mb-4 flex justify-center">
+                    <div className="bg-white p-3 rounded-xl border-2 border-black shadow-brutal w-20 h-16 flex items-center justify-center">
+                      <div className="text-2xl">⭐</div>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-bold font-display text-gray-800">Modern Cards & Layouts</h3>
+                  <p className="text-sm text-gray-600">Professional structure</p>
+                </div>
+              </div>
+
+              {/* CTA to Design System */}
+              <div className="text-center">
+                <Link href="/elements">
+                  <button className="bg-secondary-600 hover:bg-secondary-700 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 mx-auto transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
+                    🎨 Explore Design System
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
 
       {/* CTA Section */}
-      <Section background="white" padding="lg" id="cta">
+      <Section background="white" padding="md" id="cta">
         <Container>
           <div className="max-w-4xl mx-auto text-center">
             {/* Bordered CTA Box like in screenshot */}
