@@ -4,7 +4,7 @@
 
 ## Overview
 
-KidBase is built on the foundation of KidBase for creating family-focused applications.
+KidBase is a production-ready boilerplate for creating family-focused applications with modern web technologies.
 
 ## Tech Stack
 

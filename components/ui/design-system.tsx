@@ -81,15 +81,15 @@ export function Heading({
     title: 'text-2xl font-bold'
   };
 
-  const gradientClass = gradient 
-    ? 'bg-gradient-to-r from-primary-500 to-warm-500 bg-clip-text text-transparent'
+  const gradientClass = gradient
+    ? 'bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent'
     : 'text-gray-900';
 
   return (
     <Component className={cn(
       sizeClasses[size],
       gradientClass,
-      'font-black',
+      'font-black font-display',
       className
     )}>
       {children}
@@ -119,8 +119,8 @@ export function Card({
 
   return (
     <div className={cn(
-      'bg-white border border-gray-200 rounded-core shadow-core',
-      hover && 'hover:shadow-core-lg transition-all duration-200 hover:scale-105',
+      'bg-white border-4 border-black rounded-3xl shadow-brutal',
+      hover && 'hover:shadow-brutal-lg transition-all duration-200 hover:scale-105 hover:-translate-x-2 hover:-translate-y-2',
       paddingClasses[padding],
       className
     )}>
@@ -180,9 +180,9 @@ export function CoreButton({
   disabled = false
 }: CoreButtonProps) {
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-primary-500 to-warm-500 hover:from-primary-600 hover:to-warm-600 text-white shadow-lg',
-    secondary: 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white shadow-lg',
-    outline: 'border-2 border-gray-300 hover:border-primary-500 hover:text-primary-600 bg-white',
+    primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brutal border-4 border-black hover:shadow-brutal-lg active:shadow-inset-brutal',
+    secondary: 'bg-secondary-500 hover:bg-secondary-600 text-white shadow-brutal border-4 border-black hover:shadow-brutal-lg active:shadow-inset-brutal',
+    outline: 'border-4 border-black hover:bg-primary-50 hover:text-primary-600 bg-white shadow-brutal hover:shadow-brutal-lg active:shadow-inset-brutal',
     ghost: 'hover:bg-gray-100 text-gray-700 hover:text-primary-600'
   };
 
@@ -199,7 +199,7 @@ export function CoreButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'font-semibold rounded-core transition-all duration-200 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+        'font-bold font-display rounded-2xl transition-all duration-200 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0',
         variantClasses[variant],
         sizeClasses[size],
         className
@@ -241,7 +241,7 @@ export function CoreInput({
         placeholder={placeholder}
         required={required}
         className={cn(
-          'w-full px-4 py-3 border border-gray-300 rounded-card focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all duration-200',
+          'w-full px-4 py-3 border-4 border-black rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all duration-200 shadow-brutal focus:shadow-brutal-lg',
           error && 'border-red-500 focus:ring-red-500',
           className
         )}
