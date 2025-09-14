@@ -1,48 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { Container, Section, Heading, CoreButton } from '../../components/ui/design-system';
-import MobileNav from '../../components/layout/mobile-nav';
+import { Container, Section, Heading } from '../../components/ui/design-system';
 import Footer from '../../components/layout/footer';
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-
   return (
     <main className="min-h-screen">
-      {/* Navigation */}
-      <nav className="relative z-10 bg-white/90 backdrop-blur-sm">
-        <Container>
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-3xl font-bold bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
-              KidBase
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="#features" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
-                Features
-              </Link>
-              <Link href="#cta" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
-                Get Started
-              </Link>
-              <Link href="/auth">
-                <CoreButton variant="primary">🚀 Get Started</CoreButton>
-              </Link>
-            </div>
-
-            {/* Mobile Navigation */}
-            <MobileNav isOpen={isMobileMenuOpen} onToggle={toggleMobileMenu} />
-          </div>
-        </Container>
-      </nav>
-
       {/* Hero Section */}
       <Section background="default" padding="xl">
         <Container>

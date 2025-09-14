@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { Container, Section, Heading, Card, Badge, CoreButton, CoreInput } from '../../../components/ui/design-system';
 import Footer from '../../../components/layout/footer';
 
@@ -8,22 +7,6 @@ export default function DesignSystem() {
 
   return (
     <main className="min-h-screen">
-      {/* Navigation */}
-      <nav className="relative z-10 /90 backdrop-blur-sm border-b-4 border-black shadow-brutal">
-        <Container>
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-3xl font-bold font-display bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent">
-              KidBase
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gray-700 hover:text-primary-600 font-medium transition-colors">
-                ← Back to Home
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </nav>
-
       {/* Header */}
       <Section padding="lg">
         <Container>

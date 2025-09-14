@@ -9,7 +9,6 @@ export { useToast, ToastProvider } from './ui/toast';
 export { default as ErrorBoundary } from './ui/error-boundary';
 
 // Layout Components
-export { default as Navigation } from './layout/navigation';
 export { default as Footer } from './layout/footer';
 
 // Re-export types for convenience
