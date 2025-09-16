@@ -77,7 +77,7 @@ KidBase/
 - Zero Next.js template bloat
 - Production-ready error handling
 
-## Current Status: v3.5 Optimized Elements Page & User Experience ✅
+## Current Status: v3.6 Auth Page Redesign & Logo Component ✅
 
 All major features implemented:
 - ✅ Modern 3D "Rich Shadow" design system with enhanced depth effects
@@ -102,6 +102,10 @@ All major features implemented:
 - ✅ Multi-line logo header on elements page
 - ✅ Fixed color palette display issues
 - ✅ Kid-friendly terminology throughout user interface
+- ✅ Reusable Logo component with consistent branding across all pages
+- ✅ Redesigned auth page layout with improved UX
+- ✅ Static form cards with rich shadows (no hover animations)
+- ✅ Updated create account form with family-friendly terminology
 
 ## Firebase Setup Required
 
@@ -110,6 +114,36 @@ All major features implemented:
 3. Create Firestore database
 4. Configure environment variables in `.env.local`
 5. Apply Firestore security rules for user documents
+
+## Recent Updates: v3.6 Logo Component & Auth Page Redesign
+
+### Logo Component Implementation
+- **File Created**: `components/ui/logo.tsx` - Reusable logo component with consistent branding
+- **Features**: 4 responsive sizes (sm, md, lg, xl), optional href prop, hover effects
+- **Gradient Fixed**: Updated from `from-secondary-600` to `from-primary-600` for purple-to-pink-to-orange gradient
+- **Integration**: Added to design system exports and used across all pages
+- **Consistency**: Replaced hardcoded logos on landing, elements, and auth pages
+
+### Auth Page Redesign (/auth)
+- **Layout Order**: Welcome back → Logo → Form → Account toggle (as requested)
+- **Removed Elements**: Description text, "Back to home" link, logo navigation functionality
+- **Spacing Optimization**: Reduced spacing between header/logo and form (mb-12 → mb-6)
+- **Form Updates**: Changed "Full Name" to "Family Name" for family-focused terminology
+- **Card Styling**: Added rich shadow (`shadow-brutal`) with `hover={false}` for static appearance
+
+### Technical Implementation Details
+- **Logo Component**: Uses clamp() for responsive sizing, consistent purple gradient
+- **Card Component**: Leveraged existing `hover` prop to disable animations
+- **Typography**: Maintains Inter/DM Sans font system throughout
+- **Validation**: Updated error messages to match "Family name" terminology
+- **Mobile Responsive**: All changes maintain mobile-first design principles
+
+### Files Modified
+- `components/ui/logo.tsx` - New reusable logo component
+- `components/ui/design-system.tsx` - Added Logo component export
+- `src/app/page.tsx` - Updated to use Logo component
+- `src/app/elements/page.tsx` - Updated to use Logo component
+- `src/app/(auth)/auth/page.tsx` - Complete redesign with Logo component and family terminology
 
 ## Git Commit Instructions
 

@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { cn } from '../../lib/utils';
+import Logo from './logo';
 
 // Core Container Component
 interface ContainerProps {
@@ -278,3 +279,6 @@ export function Step({ step, title, description, icon, className }: StepProps) {
     </Card>
   );
 }
+
+// Export Logo component
+export { Logo };

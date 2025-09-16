@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Container, Section, Heading, Card, Badge, CoreButton, CoreInput } from '../../../components/ui/design-system';
+import { Container, Section, Heading, Card, Badge, CoreButton, CoreInput, Logo } from '../../../components/ui/design-system';
 import Footer from '../../../components/layout/footer';
 
 export default function DesignSystem() {
@@ -25,12 +25,7 @@ export default function DesignSystem() {
           <div className="text-center">
             <div className="mb-6">
               <div className="font-black font-display leading-none space-y-2">
-                <div
-                  className="bg-gradient-to-r from-secondary-600 via-pink-500 to-orange-500 bg-clip-text text-transparent"
-                  style={{ fontSize: 'clamp(3rem, 10vw, 6rem)' }}
-                >
-                  KidBase
-                </div>
+                <Logo size="lg" />
                 <div className="text-gray-900 text-display">
                   Design
                 </div>

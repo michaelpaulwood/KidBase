@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Container, Section, Heading } from '../../components/ui/design-system';
+import { Container, Section, Heading, Logo } from '../../components/ui/design-system';
 import Footer from '../../components/layout/footer';
 
 export default function Home() {
@@ -14,12 +14,7 @@ export default function Home() {
             {/* Main Heading - Gaming Style vs Layout */}
             <div className="space-y-6">
               <div className="font-black font-display leading-none">
-                <div
-                  className="bg-gradient-to-r from-secondary-600 via-pink-500 to-orange-500 bg-clip-text text-transparent -mb-2"
-                  style={{ fontSize: 'clamp(3.5rem, 12vw, 8rem)' }}
-                >
-                  KidBase
-                </div>
+                <Logo size="xl" />
                 <div className="text-gray-900 text-center text-hero -mb-2">
                   vs.
                 </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Container, Heading, Card, CoreButton, CoreInput, Badge } from '../../../../components/ui/design-system';
+import { Container, Heading, Card, CoreButton, CoreInput, Badge, Logo } from '../../../../components/ui/design-system';
 import { useAuth } from '../../../../hooks/useAuth';
 
 export default function AuthPage() {
@@ -57,7 +57,7 @@ export default function AuthPage() {
 
     if (!isLogin) {
       if (!formData.name) {
-        newErrors.name = 'Name is required';
+        newErrors.name = 'Family name is required';
       }
 
       if (!formData.confirmPassword) {
@@ -123,39 +123,19 @@ export default function AuthPage() {
       <Container>
         <div className="min-h-screen flex flex-col justify-center py-12">
           {/* Header */}
-          <div className="text-center mb-12">
-            <Link href="/" className="inline-block mb-8">
-              <Heading level={1} size="display" className="text-gray-900 hover:text-primary-600 transition-colors">
-                KidBase
-              </Heading>
-            </Link>
-            
-            <Heading level={2} size="heading" className="mb-4">
+          <div className="text-center mb-6">
+            <Heading level={2} size="heading" className="mb-6">
               {isLogin ? 'Welcome back' : 'Create your account'}
             </Heading>
-            
-            <p className="text-lg text-gray-600 mb-6">
-              {isLogin ? 'Sign in to continue building faster' : 'Join thousands of developers using KidBase'}
-            </p>
 
-            {/* Toggle Button */}
-            <div className="flex items-center justify-center">
-              <p className="text-gray-600 mr-2">
-                {isLogin ? "Don't have an account?" : 'Already have an account?'}
-              </p>
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="font-semibold text-primary-600 hover:text-primary-700 transition-colors"
-              >
-                {isLogin ? 'Sign up' : 'Sign in'}
-              </button>
+            <div>
+              <Logo size="lg" />
             </div>
           </div>
 
           {/* Auth Form */}
           <div className="max-w-md mx-auto w-full">
-            <Card className="shadow-core-lg">
+            <Card hover={false} className="shadow-brutal">
               {/* Error Messages */}
               {error && (
                 <div className="mb-6">
@@ -178,12 +158,12 @@ export default function AuthPage() {
                 {!isLogin && (
                   <div className="w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name {true && <span className="text-red-500 ml-1">*</span>}
+                      Family Name {true && <span className="text-red-500 ml-1">*</span>}
                     </label>
                     <input
                       name="name"
                       type="text"
-                      placeholder="Enter your full name"
+                      placeholder="Enter your family name"
                       value={formData.name}
                       onChange={handleInputChange}
                       required
@@ -274,16 +254,22 @@ export default function AuthPage() {
                 </CoreButton>
               </form>
 
-              {/* Back to Home */}
-              <div className="mt-8 text-center">
-                <Link 
-                  href="/" 
-                  className="text-sm text-gray-500 hover:text-primary-600 transition-colors font-medium"
-                >
-                  ← Back to home
-                </Link>
-              </div>
             </Card>
+
+            {/* Account Toggle - Below Form */}
+            <div className="mt-8 text-center">
+              <p className="text-gray-600">
+                {isLogin ? "Don't have an account yet?" : 'Already have an account?'}
+                {' '}
+                <button
+                  type="button"
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="font-semibold text-primary-600 hover:text-primary-700 transition-colors underline"
+                >
+                  {isLogin ? 'Sign up' : 'Sign in'}
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </Container>
