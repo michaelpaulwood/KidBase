@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Container, Section, Heading, Card, Badge, CoreButton, CoreInput } from '../../../components/ui/design-system';
 import Footer from '../../../components/layout/footer';
 
@@ -7,39 +8,62 @@ export default function DesignSystem() {
 
   return (
     <main className="min-h-screen">
-      {/* Header */}
-      <Section padding="lg">
+      {/* Back Navigation - Top of page */}
+      <div className="pt-6 pb-2">
         <Container>
-          <div className="text-center mb-16">
-            <Badge variant="primary" className="mb-6 shadow-brutal border-2 border-black">🎨 Design System</Badge>
-            <Heading level={1} size="display" className="mb-6">
-              KidBase Design Elements
-            </Heading>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <Link href="/">
+            <button className="bg-secondary-500 hover:bg-secondary-600 text-white font-bold font-display py-2 px-4 rounded-xl text-sm flex items-center gap-2 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-2 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
+              ← Back to Home
+            </button>
+          </Link>
+        </Container>
+      </div>
+
+      {/* Header - Introduction to Design System */}
+      <div className="py-8 pb-4">
+        <Container>
+          <div className="text-center">
+            <div className="mb-6">
+              <div className="font-black font-display leading-none space-y-2">
+                <div
+                  className="bg-gradient-to-r from-secondary-600 via-pink-500 to-orange-500 bg-clip-text text-transparent"
+                  style={{ fontSize: 'clamp(3rem, 10vw, 6rem)' }}
+                >
+                  KidBase
+                </div>
+                <div className="text-gray-900 text-display">
+                  Design
+                </div>
+                <div className="text-gray-900 text-display">
+                  Elements
+                </div>
+              </div>
+            </div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-2">
               A comprehensive showcase of all design components, colors, and patterns available in the KidBase design system.
             </p>
           </div>
         </Container>
-      </Section>
+      </div>
 
       {/* Colors Section */}
-      <Section background="white" padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
+          <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-8 text-center">Color Palette</Heading>
 
             {/* Primary Colors */}
-            <div className="mb-12">
+            <div className="mb-4">
               <h3 className="text-xl font-bold font-display mb-6">Primary Purple</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[
                   { name: 'primary-100', value: '#f3e8ff', text: 'text-black' },
                   { name: 'primary-300', value: '#d8b4fe', text: 'text-black' },
                   { name: 'primary-500', value: '#a855f7', text: 'text-white' },
-                  { name: 'primary-700', value: '#7c3aed', text: 'text-white' },
-                  { name: 'primary-900', value: '#581c87', text: 'text-white' }
+                  { name: 'primary-700', value: '#7c3aed', text: 'text-black' },
+                  { name: 'primary-900', value: '#581c87', text: 'text-black' }
                 ].map((color) => (
-                  <div key={color.name} className={`bg-${color.name} p-6 rounded-2xl border-4 border-black shadow-brutal`}>
+                  <div key={color.name} className="p-6 rounded-2xl border-4 border-black shadow-brutal" style={{ backgroundColor: color.value }}>
                     <div className={`font-bold font-display ${color.text}`}>{color.name}</div>
                     <div className={`text-sm ${color.text} opacity-80`}>{color.value}</div>
                   </div>
@@ -48,7 +72,7 @@ export default function DesignSystem() {
             </div>
 
             {/* Secondary Colors */}
-            <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="grid md:grid-cols-4 gap-6 mb-6">
               <div className="text-center">
                 <h4 className="font-bold font-display mb-4">Success Green</h4>
                 <div className="bg-success-500 p-6 rounded-2xl border-4 border-black shadow-brutal text-white">
@@ -79,10 +103,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Typography Section */}
-      <Section padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Typography</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Typography</Heading>
 
             <Card hover={false} className="p-8">
               <div className="space-y-8">
@@ -114,10 +138,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Buttons Section */}
-      <Section background="white" padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Button Components</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Button Components</Heading>
 
             <div className="grid md:grid-cols-2 gap-8">
               <Card hover={false} className="p-8">
@@ -145,10 +169,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Form Elements Section */}
-      <Section padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Form Elements</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Form Elements</Heading>
 
             <Card hover={false} className="max-w-2xl mx-auto p-8">
               <div className="space-y-6">
@@ -188,10 +212,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Cards Section */}
-      <Section background="white" padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Card Components</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Card Components</Heading>
 
             <div className="grid md:grid-cols-3 gap-8">
               <Card hover={false} className="text-center">
@@ -217,10 +241,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Badges Section */}
-      <Section padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Badge Components</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Badge Components</Heading>
 
             <div className="text-center space-x-4 space-y-4">
               <Badge variant="primary">🚀 Primary Badge</Badge>
@@ -233,19 +257,19 @@ export default function DesignSystem() {
       </Section>
 
       {/* Shadows & Effects Section */}
-      <Section background="white" padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Shadow Effects</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Shadow Effects</Heading>
 
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-8  rounded-2xl border-4 border-black shadow-brutal text-center">
-                <h3 className="font-bold font-display mb-2">Brutal Shadow</h3>
+                <h3 className="font-bold font-display mb-2">Rich Shadow</h3>
                 <code className="text-sm text-gray-600">shadow-brutal</code>
               </div>
 
               <div className="p-8  rounded-2xl border-4 border-black shadow-brutal-lg text-center">
-                <h3 className="font-bold font-display mb-2">Large Brutal Shadow</h3>
+                <h3 className="font-bold font-display mb-2">Large Rich Shadow</h3>
                 <code className="text-sm text-gray-600">shadow-brutal-lg</code>
               </div>
 
@@ -259,10 +283,10 @@ export default function DesignSystem() {
       </Section>
 
       {/* Usage Guidelines */}
-      <Section padding="lg">
+      <Section background="default" padding="none">
         <Container>
-          <div className="mb-16">
-            <Heading level={2} size="heading" className="mb-8 text-center">Usage Guidelines</Heading>
+          <div className="py-6 mb-4">
+            <Heading level={2} size="heading" className="mb-6 text-center">Usage Guidelines</Heading>
 
             <div className="grid md:grid-cols-2 gap-8">
               <Card hover={false} className="p-8">

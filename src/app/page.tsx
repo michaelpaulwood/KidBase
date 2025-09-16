@@ -199,17 +199,12 @@ export default function Home() {
                 Join the future of family apps with our beautiful, functional boilerplate
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link href="/auth">
+              <div className="flex justify-center">
+                <a href="https://github.com/michaelpaulwood/KidBase" target="_blank" rel="noopener noreferrer">
                   <button className="bg-success-500 hover:bg-success-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
                     ✨ Start Building
                   </button>
-                </Link>
-                <Link href="/auth">
-                  <button className="bg-primary-500 hover:bg-primary-600 text-white font-bold font-display py-4 px-8 rounded-2xl text-lg flex items-center gap-3 transition-all duration-200 shadow-brutal hover:shadow-brutal-lg border-4 border-black hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0">
-                    🔧 Login
-                  </button>
-                </Link>
+                </a>
               </div>
             </div>
           </div>
