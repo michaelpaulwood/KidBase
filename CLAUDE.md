@@ -77,7 +77,7 @@ KidBase/
 - Zero Next.js template bloat
 - Production-ready error handling
 
-## Current Status: v3.6 Auth Page Redesign & Logo Component ✅
+## Current Status: v3.7 Dashboard Navbar Enhancement ✅
 
 All major features implemented:
 - ✅ Modern 3D "Rich Shadow" design system with enhanced depth effects
@@ -106,6 +106,8 @@ All major features implemented:
 - ✅ Redesigned auth page layout with improved UX
 - ✅ Static form cards with rich shadows (no hover animations)
 - ✅ Updated create account form with family-friendly terminology
+- ✅ Enhanced Dashboard navbar with unified Logo component
+- ✅ Streamlined navbar layout with clean, minimal design
 
 ## Firebase Setup Required
 
@@ -115,7 +117,28 @@ All major features implemented:
 4. Configure environment variables in `.env.local`
 5. Apply Firestore security rules for user documents
 
-## Recent Updates: v3.6 Logo Component & Auth Page Redesign
+## Recent Updates: v3.7 Dashboard Navbar Enhancement
+
+### Dashboard Navbar Optimization
+- **Logo Component Integration**: Replaced hardcoded "KidBase" text with unified Logo component
+- **Added Extra Small Size**: Created 'xs' size option (1.5rem to 2rem) for navbar context
+- **Removed User Badge**: Eliminated family name badge for cleaner, minimal navbar design
+- **Consistent Branding**: Dashboard now uses same purple-to-pink-to-orange gradient as other pages
+- **Improved UX**: Simplified navbar with just Logo (left) and Logout button (right)
+
+### Technical Implementation Details
+- **Logo Component Enhancement**: Added 'xs' size to TypeScript interface and sizeMap
+- **Dashboard Integration**: Updated imports and replaced Link wrapper with Logo component's href prop
+- **Code Cleanup**: Removed unnecessary Badge component and responsive wrapper
+- **Responsive Design**: Logo scales appropriately from 24px (mobile) to 32px (desktop)
+
+### Files Modified
+- `components/ui/logo.tsx` - Added 'xs' size option for navbar use
+- `src/app/dashboard/page.tsx` - Integrated Logo component and removed user badge
+- `CLAUDE.md` - Updated documentation with latest changes
+- `KidBasePlan.md` - Updated changelog with v3.7 improvements
+
+## Previous Updates: v3.6 Logo Component & Auth Page Redesign
 
 ### Logo Component Implementation
 - **File Created**: `components/ui/logo.tsx` - Reusable logo component with consistent branding

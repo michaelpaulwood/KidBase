@@ -1,12 +1,13 @@
 import React from 'react';
 
 interface LogoProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
   href?: string;
 }
 
 const sizeMap = {
+  xs: 'clamp(1.5rem, 4vw, 2rem)',   // Extra small for navbar
   sm: 'clamp(2rem, 6vw, 3rem)',     // Small version
   md: 'clamp(2.5rem, 8vw, 4rem)',   // Medium version
   lg: 'clamp(3rem, 10vw, 6rem)',    // Elements page size

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Container, Section, Heading, Card, CoreButton, Badge } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
+import Logo from '../../../components/ui/logo';
 import { useAuth } from '../../../hooks/useAuth';
 
 export default function Dashboard() {
@@ -53,15 +54,8 @@ export default function Dashboard() {
       <nav className="bg-white/90 backdrop-blur-sm border-b border-primary-100 sticky top-0 z-40">
         <Container>
           <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-3xl font-bold text-gray-900 hover:text-primary-600 transition-colors">
-              KidBase
-            </Link>
+            <Logo size="xs" href="/" />
             <div className="flex items-center space-x-6">
-              <div className="hidden sm:block">
-                <Badge variant="success" className="mr-4">
-                  ✅ {user.displayName || 'User'}
-                </Badge>
-              </div>
               <CoreButton variant="outline" onClick={handleLogout}>
                 Logout
               </CoreButton>
