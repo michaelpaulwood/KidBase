@@ -42,7 +42,7 @@ export default function DesignSystem() {
       </div>
 
       {/* Colors Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-8 text-center">Color Palette</Heading>
@@ -98,7 +98,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Typography Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Typography</Heading>
@@ -133,7 +133,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Buttons Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Button Components</Heading>
@@ -164,7 +164,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Form Elements Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Form Elements</Heading>
@@ -207,7 +207,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Cards Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Card Components</Heading>
@@ -236,7 +236,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Badges Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Badge Components</Heading>
@@ -252,7 +252,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Shadows & Effects Section */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Shadow Effects</Heading>
@@ -278,7 +278,7 @@ export default function DesignSystem() {
       </Section>
 
       {/* Usage Guidelines */}
-      <Section background="default" padding="none">
+      <Section background="default" padding="sm">
         <Container>
           <div className="py-6 mb-4">
             <Heading level={2} size="heading" className="mb-6 text-center">Usage Guidelines</Heading>

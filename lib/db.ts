@@ -3,110 +3,69 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  deleteDoc,
   collection,
   query,
-  where,
-  orderBy,
-  limit,
   getDocs,
   DocumentData,
   QueryConstraint,
   Timestamp
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { User, UserPreferences, UserProfile } from '../types/user';
+import type { Family } from '../types/user';
 
-// Use the User interface from types/user.ts
-export type UserData = User;
+// Use the Family interface from types/user.ts
+export type FamilyData = Family;
 
 // Collections
 export const COLLECTIONS = {
-  USERS: 'users',
+  FAMILIES: 'families',
   USER_SESSIONS: 'userSessions'
 } as const;
 
-// Create or update user document
-export const createUserDocument = async (
-  userId: string,
-  userData: Partial<UserData>
+// ===== FAMILY FUNCTIONS =====
+
+// Create or update family document
+export const createFamilyDocument = async (
+  familyId: string,
+  familyData: Partial<FamilyData>
 ): Promise<void> => {
   try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await setDoc(userRef, userData, { merge: true });
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await setDoc(familyRef, familyData, { merge: true });
   } catch (error) {
-    console.error('Error creating/updating user document:', error);
-    throw new Error('Failed to save user data. Please try again.');
+    console.error('Error creating/updating family document:', error);
+    throw new Error('Failed to save family data. Please try again.');
   }
 };
 
-// Get user document
-export const getUserDocument = async (userId: string): Promise<UserData | null> => {
+// Get family document
+export const getFamilyDocument = async (familyId: string): Promise<FamilyData | null> => {
   try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    const userSnap = await getDoc(userRef);
-    
-    if (userSnap.exists()) {
-      return userSnap.data() as UserData;
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    const familySnap = await getDoc(familyRef);
+
+    if (familySnap.exists()) {
+      return familySnap.data() as FamilyData;
     } else {
       return null;
     }
   } catch (error) {
-    console.error('Error getting user document:', error);
-    throw new Error('Failed to load user data. Please try again.');
+    console.error('Error getting family document:', error);
+    throw new Error('Failed to load family data. Please try again.');
   }
 };
 
-// Update user document
-export const updateUserDocument = async (
-  userId: string,
-  updates: Partial<UserData>
+// Update family document
+export const updateFamilyDocument = async (
+  familyId: string,
+  updates: Partial<FamilyData>
 ): Promise<void> => {
   try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await updateDoc(userRef, updates);
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, updates);
   } catch (error) {
-    console.error('Error updating user document:', error);
-    throw new Error('Failed to update user data. Please try again.');
-  }
-};
-
-// Delete user document
-export const deleteUserDocument = async (userId: string): Promise<void> => {
-  try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await deleteDoc(userRef);
-  } catch (error) {
-    console.error('Error deleting user document:', error);
-    throw new Error('Failed to delete user data. Please try again.');
-  }
-};
-
-// Update user preferences
-export const updateUserPreferences = async (
-  userId: string,
-  preferences: UserPreferences
-): Promise<void> => {
-  try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await updateDoc(userRef, { preferences });
-  } catch (error) {
-    console.error('Error updating user preferences:', error);
-    throw new Error('Failed to update preferences. Please try again.');
-  }
-};
-
-// Update user profile
-export const updateUserProfile = async (
-  userId: string,
-  profile: Partial<UserProfile>
-): Promise<void> => {
-  try {
-    const userRef = doc(db, COLLECTIONS.USERS, userId);
-    await updateDoc(userRef, { profile });
-  } catch (error) {
-    console.error('Error updating user profile:', error);
-    throw new Error('Failed to update profile. Please try again.');
+    console.error('Error updating family document:', error);
+    throw new Error('Failed to update family data. Please try again.');
   }
 };
 
@@ -130,43 +89,6 @@ export const queryCollection = async (
   }
 };
 
-// Get users with pagination
-export const getUsers = async (
-  limitCount: number = 10,
-  orderByField: string = 'createdAt'
-): Promise<UserData[]> => {
-  try {
-    const constraints = [
-      orderBy(orderByField, 'desc'),
-      limit(limitCount)
-    ];
-    
-    const users = await queryCollection(COLLECTIONS.USERS, constraints);
-    return users as UserData[];
-  } catch (error) {
-    console.error('Error getting users:', error);
-    throw new Error('Failed to load users. Please try again.');
-  }
-};
-
-// Search users by email or display name
-export const searchUsers = async (searchTerm: string): Promise<UserData[]> => {
-  try {
-    // Note: Firestore doesn't support full-text search natively
-    // This is a simple implementation that searches by email prefix
-    const constraints = [
-      where('email', '>=', searchTerm.toLowerCase()),
-      where('email', '<=', searchTerm.toLowerCase() + '\uf8ff'),
-      limit(10)
-    ];
-    
-    const users = await queryCollection(COLLECTIONS.USERS, constraints);
-    return users as UserData[];
-  } catch (error) {
-    console.error('Error searching users:', error);
-    throw new Error('Failed to search users. Please try again.');
-  }
-};
 
 // Utility function to convert Firestore Timestamp to ISO string
 export const timestampToString = (timestamp: Timestamp): string => {

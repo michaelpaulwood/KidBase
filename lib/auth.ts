@@ -10,7 +10,7 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { auth } from './firebase';
-import { createUserDocument, getUserDocument } from './db';
+import { createFamilyDocument, getFamilyDocument } from './db';
 
 export interface AuthUser {
   uid: string;
@@ -58,17 +58,18 @@ export const signUpWithEmailAndPassword = async ({
       displayName: name
     });
 
-    // Create user document in Firestore
-    const userData = {
+    // Create family document in Firestore
+    const familyData = {
       uid: user.uid,
       email: user.email!,
       displayName: name,
       photoURL: user.photoURL,
       createdAt: new Date().toISOString(),
-      lastLoginAt: new Date().toISOString()
+      lastLoginAt: new Date().toISOString(),
+      onboardingComplete: false
     };
-    
-    await createUserDocument(user.uid, userData);
+
+    await createFamilyDocument(user.uid, familyData);
     
     return formatAuthUser(user);
   } catch (error: unknown) {
@@ -92,10 +93,10 @@ export const loginWithEmailAndPassword = async ({
     const user = userCredential.user;
     
     // Update last login time in Firestore
-    const userData = await getUserDocument(user.uid);
-    if (userData) {
-      await createUserDocument(user.uid, {
-        ...userData,
+    const familyData = await getFamilyDocument(user.uid);
+    if (familyData) {
+      await createFamilyDocument(user.uid, {
+        ...familyData,
         lastLoginAt: new Date().toISOString()
       });
     }
@@ -117,23 +118,24 @@ export const signInWithGoogle = async (): Promise<AuthUser> => {
     const userCredential: UserCredential = await signInWithPopup(auth, provider);
     const user = userCredential.user;
     
-    // Check if user exists in Firestore, if not create document
-    const existingUser = await getUserDocument(user.uid);
-    if (!existingUser) {
-      const userData = {
+    // Check if family exists in Firestore, if not create document
+    const existingFamily = await getFamilyDocument(user.uid);
+    if (!existingFamily) {
+      const familyData = {
         uid: user.uid,
         email: user.email!,
         displayName: user.displayName!,
         photoURL: user.photoURL,
         createdAt: new Date().toISOString(),
-        lastLoginAt: new Date().toISOString()
+        lastLoginAt: new Date().toISOString(),
+        onboardingComplete: false
       };
-      
-      await createUserDocument(user.uid, userData);
+
+      await createFamilyDocument(user.uid, familyData);
     } else {
       // Update last login time
-      await createUserDocument(user.uid, {
-        ...existingUser,
+      await createFamilyDocument(user.uid, {
+        ...existingFamily,
         lastLoginAt: new Date().toISOString()
       });
     }

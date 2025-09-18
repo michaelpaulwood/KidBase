@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Container, Heading, Card, CoreButton, CoreInput, Badge, Logo } from '../../../../components/ui/design-system';
+import { Container, Heading, Card, CoreButton, Badge, Logo } from '../../../../components/ui/design-system';
 import { useAuth } from '../../../../hooks/useAuth';
 
 export default function AuthPage() {
@@ -18,7 +17,7 @@ export default function AuthPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [resetEmailSent, setResetEmailSent] = useState(false);
   
-  const { signUp, signIn, signInWithGoogle, resetPassword, user, error, clearError } = useAuth();
+  const { signUp, signIn, resetPassword, user, error, clearError } = useAuth();
   const router = useRouter();
 
   // Redirect if user is already logged in
@@ -86,18 +85,6 @@ export default function AuthPage() {
       }
     } catch (err) {
       console.error('Auth error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      setIsLoading(true);
-      clearError();
-      await signInWithGoogle();
-    } catch (err) {
-      console.error('Google sign-in error:', err);
     } finally {
       setIsLoading(false);
     }

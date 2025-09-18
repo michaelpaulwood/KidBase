@@ -24,7 +24,7 @@ export default function Home() {
               </div>
 
               <p className="text-xl lg:text-2xl text-gray-600 leading-relaxed max-w-4xl mx-auto">
-                While others debate frameworks, you'll be collecting user feedback. This isn't just a boilerplate—it's your unfair advantage.
+                While others debate frameworks, you&apos;ll be collecting user feedback. This isn&apos;t just a boilerplate—it&apos;s your unfair advantage.
               </p>
             </div>
 
@@ -41,7 +41,7 @@ export default function Home() {
       </Section>
 
       {/* Features Section */}
-      <Section background="white" padding="md" id="features">
+      <Section background="white" padding="md">
         <Container>
           <div className="max-w-6xl mx-auto">
             {/* Bordered Features Box */}
@@ -116,7 +116,7 @@ export default function Home() {
       </Section>
 
       {/* Design System Showcase Section */}
-      <Section background="white" padding="md" id="design-system">
+      <Section background="white" padding="md">
         <Container>
           <div className="max-w-4xl mx-auto">
             {/* Bordered Design System Box */}
@@ -182,7 +182,7 @@ export default function Home() {
       </Section>
 
       {/* CTA Section */}
-      <Section background="white" padding="md" id="cta">
+      <Section background="white" padding="md">
         <Container>
           <div className="max-w-4xl mx-auto text-center">
             {/* Bordered CTA Box like in screenshot */}

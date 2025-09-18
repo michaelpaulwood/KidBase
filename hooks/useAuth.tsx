@@ -11,11 +11,9 @@ import {
   sendPasswordReset
 } from '../lib/auth';
 import {
-  getUserDocument,
-  updateUserProfile as updateUserProfileDb,
-  updateUserPreferences as updateUserPreferencesDb
+  getFamilyDocument
 } from '../lib/db';
-import type { User, AuthContextType, UserPreferences, UserProfile } from '../types/user';
+import type { Family, AuthContextType, FamilyPreferences, FamilyProfile } from '../types/user';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -32,29 +30,31 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [family, setFamily] = useState<Family | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Convert Firebase user to our User type
-  const formatUser = async (firebaseUser: FirebaseUser): Promise<User | null> => {
+  // Convert Firebase user to our Family type
+  const formatFamily = async (firebaseUser: FirebaseUser): Promise<Family | null> => {
     try {
-      const userData = await getUserDocument(firebaseUser.uid);
-      if (userData) {
-        return userData;
+      const familyData = await getFamilyDocument(firebaseUser.uid);
+      if (familyData) {
+        // Return family data directly - no conversion needed
+        return familyData;
       }
-      
+
       // Fallback if no Firestore document exists
       return {
         uid: firebaseUser.uid,
         email: firebaseUser.email!,
-        displayName: firebaseUser.displayName || 'User',
+        displayName: firebaseUser.displayName || 'Family',
         photoURL: firebaseUser.photoURL,
         createdAt: new Date().toISOString(),
-        lastLoginAt: new Date().toISOString()
+        lastLoginAt: new Date().toISOString(),
+        onboardingComplete: false
       };
     } catch (error) {
-      console.error('Error formatting user:', error);
+      console.error('Error formatting family:', error);
       return null;
     }
   };
@@ -71,10 +71,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
       
       const authUser = await signUpWithEmailAndPassword({ email, password, name });
-      const userData = await getUserDocument(authUser.uid);
-      
-      if (userData) {
-        setUser(userData);
+      const familyData = await getFamilyDocument(authUser.uid);
+
+      if (familyData) {
+        // Convert family data to user format for component compatibility
+        setFamily({
+          uid: familyData.uid,
+          email: familyData.email,
+          displayName: familyData.displayName,
+          photoURL: familyData.photoURL,
+          createdAt: familyData.createdAt,
+          lastLoginAt: familyData.lastLoginAt,
+          onboardingComplete: familyData.onboardingComplete,
+          preferences: familyData.preferences,
+          profile: familyData.profile
+        });
       }
     } catch (error: any) {
       console.error('Sign up error:', error);
@@ -92,10 +103,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
       
       const authUser = await loginWithEmailAndPassword({ email, password });
-      const userData = await getUserDocument(authUser.uid);
-      
-      if (userData) {
-        setUser(userData);
+      const familyData = await getFamilyDocument(authUser.uid);
+
+      if (familyData) {
+        // Convert family data to user format for component compatibility
+        setFamily({
+          uid: familyData.uid,
+          email: familyData.email,
+          displayName: familyData.displayName,
+          photoURL: familyData.photoURL,
+          createdAt: familyData.createdAt,
+          lastLoginAt: familyData.lastLoginAt,
+          onboardingComplete: familyData.onboardingComplete,
+          preferences: familyData.preferences,
+          profile: familyData.profile
+        });
       }
     } catch (error: any) {
       console.error('Sign in error:', error);
@@ -113,10 +135,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
       
       const authUser = await signInWithGoogle();
-      const userData = await getUserDocument(authUser.uid);
-      
-      if (userData) {
-        setUser(userData);
+      const familyData = await getFamilyDocument(authUser.uid);
+
+      if (familyData) {
+        // Convert family data to user format for component compatibility
+        setFamily({
+          uid: familyData.uid,
+          email: familyData.email,
+          displayName: familyData.displayName,
+          photoURL: familyData.photoURL,
+          createdAt: familyData.createdAt,
+          lastLoginAt: familyData.lastLoginAt,
+          onboardingComplete: familyData.onboardingComplete,
+          preferences: familyData.preferences,
+          profile: familyData.profile
+        });
       }
     } catch (error: any) {
       console.error('Google sign in error:', error);
@@ -134,7 +167,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(null);
       
       await logout();
-      setUser(null);
+      setFamily(null);
     } catch (error: any) {
       console.error('Sign out error:', error);
       setError(error.message);
@@ -156,59 +189,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // Update user profile
-  const updateUserProfile = async (updates: Partial<UserProfile>): Promise<void> => {
-    if (!user) throw new Error('No user logged in');
-    
-    try {
-      setError(null);
-      await updateUserProfileDb(user.uid, updates);
-      
-      // Update local user state
-      setUser(prevUser => ({
-        ...prevUser!,
-        profile: { ...prevUser!.profile, ...updates }
-      }));
-    } catch (error: any) {
-      console.error('Update profile error:', error);
-      setError(error.message);
-      throw error;
-    }
-  };
-
-  // Update user preferences
-  const updateUserPreferences = async (preferences: UserPreferences): Promise<void> => {
-    if (!user) throw new Error('No user logged in');
-    
-    try {
-      setError(null);
-      await updateUserPreferencesDb(user.uid, preferences);
-      
-      // Update local user state
-      setUser(prevUser => ({
-        ...prevUser!,
-        preferences
-      }));
-    } catch (error: any) {
-      console.error('Update preferences error:', error);
-      setError(error.message);
-      throw error;
-    }
-  };
 
   // Listen for auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          const formattedUser = await formatUser(firebaseUser);
-          setUser(formattedUser);
+          const formattedFamily = await formatFamily(firebaseUser);
+          setFamily(formattedFamily);
         } else {
-          setUser(null);
+          setFamily(null);
         }
       } catch (error) {
         console.error('Auth state change error:', error);
-        setUser(null);
+        setFamily(null);
       } finally {
         setLoading(false);
       }
@@ -218,7 +212,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const value: AuthContextType = {
-    user,
+    user: family,
     loading,
     error,
     signUp,
@@ -226,8 +220,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signInWithGoogle: signInWithGoogleProvider,
     signOut,
     resetPassword,
-    updateUserProfile,
-    updateUserPreferences,
     clearError
   };
 

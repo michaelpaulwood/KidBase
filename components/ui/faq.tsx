@@ -15,7 +15,6 @@ export function FAQItem({ question, answer, isOpen = false, onToggle }: FAQItemP
   const [internalOpen, setInternalOpen] = useState(false);
   const isExpanded = onToggle ? isOpen : internalOpen;
   const handleToggle = onToggle ? onToggle : () => {
-    console.log('FAQ clicked, current state:', internalOpen); // Debug log
     setInternalOpen(!internalOpen);
   };
 

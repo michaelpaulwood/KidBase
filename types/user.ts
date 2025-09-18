@@ -1,15 +1,16 @@
-export interface User {
+export interface Family {
   uid: string;
   email: string;
   displayName: string;
   photoURL?: string | null;
   createdAt: string;
   lastLoginAt: string;
-  preferences?: UserPreferences;
-  profile?: UserProfile;
+  onboardingComplete: boolean;
+  preferences?: FamilyPreferences;
+  profile?: FamilyProfile;
 }
 
-export interface UserPreferences {
+export interface FamilyPreferences {
   theme?: 'light' | 'dark' | 'system';
   notifications?: boolean;
   newsletter?: boolean;
@@ -17,7 +18,7 @@ export interface UserPreferences {
   timezone?: string;
 }
 
-export interface UserProfile {
+export interface FamilyProfile {
   bio?: string;
   location?: string;
   website?: string;
@@ -26,14 +27,15 @@ export interface UserProfile {
   dateOfBirth?: string;
 }
 
+
 export interface AuthState {
-  user: User | null;
+  user: Family | null;
   loading: boolean;
   error: string | null;
 }
 
 export interface AuthContextType {
-  user: User | null;
+  user: Family | null;
   loading: boolean;
   error: string | null;
   signUp: (email: string, password: string, name: string) => Promise<void>;
@@ -41,8 +43,6 @@ export interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
-  updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
-  updateUserPreferences: (preferences: UserPreferences) => Promise<void>;
   clearError: () => void;
 }
 

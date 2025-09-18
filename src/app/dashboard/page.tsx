@@ -72,7 +72,7 @@ export default function Dashboard() {
               Welcome back, {user.displayName?.split(' ')[0] || 'Developer'}! 👋
             </Heading>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Your KidBase dashboard is ready. Here's everything you need to manage your projects and account.
+              Your KidBase dashboard is ready. Here&apos;s everything you need to manage your projects and account.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ export default function Dashboard() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Last Login</label>
                   <p className="text-gray-900">
-                    {new Date(user.lastLogin).toLocaleDateString('en-US', {
+                    {new Date(user.lastLoginAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',
                       day: 'numeric'
