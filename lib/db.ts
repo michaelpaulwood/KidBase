@@ -100,6 +100,20 @@ export const stringToTimestamp = (dateString: string): Timestamp => {
   return Timestamp.fromDate(new Date(dateString));
 };
 
+// Complete family onboarding
+export const completeFamilyOnboarding = async (familyId: string): Promise<void> => {
+  try {
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      onboardingComplete: true,
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error completing family onboarding:', error);
+    throw new Error('Failed to complete onboarding. Please try again.');
+  }
+};
+
 // Batch operations helper
 export const batchWrite = async (operations: Array<() => Promise<void>>): Promise<void> => {
   try {

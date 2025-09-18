@@ -189,6 +189,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // Refresh user data from Firestore
+  const refreshUser = async (): Promise<void> => {
+    try {
+      if (auth.currentUser) {
+        const formattedFamily = await formatFamily(auth.currentUser);
+        setFamily(formattedFamily);
+      }
+    } catch (error: any) {
+      console.error('Refresh user error:', error);
+      setError(error.message);
+    }
+  };
+
 
   // Listen for auth state changes
   useEffect(() => {
@@ -220,6 +233,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signInWithGoogle: signInWithGoogleProvider,
     signOut,
     resetPassword,
+    refreshUser,
     clearError
   };
 

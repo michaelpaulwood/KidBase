@@ -23,7 +23,12 @@ export default function AuthPage() {
   // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
-      router.push('/dashboard');
+      // Check onboarding status and redirect accordingly
+      if (user.onboardingComplete) {
+        router.push('/dashboard');
+      } else {
+        router.push('/onboarding');
+      }
     }
   }, [user, router]);
 

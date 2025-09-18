@@ -19,6 +19,13 @@ export default function Dashboard() {
     }
   }, [user, loading, router]);
 
+  // Redirect to onboarding if not completed
+  useEffect(() => {
+    if (!loading && user && !user.onboardingComplete) {
+      router.push('/onboarding');
+    }
+  }, [user, loading, router]);
+
   const handleLogout = async () => {
     if (confirm('Are you sure you want to logout?')) {
       try {
@@ -45,6 +52,11 @@ export default function Dashboard() {
 
   // Don't render anything if user is not authenticated (will redirect)
   if (!user) {
+    return null;
+  }
+
+  // Don't render anything if onboarding is not complete (will redirect)
+  if (!user.onboardingComplete) {
     return null;
   }
 
