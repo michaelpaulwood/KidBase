@@ -121,7 +121,7 @@ export default function AuthPage() {
             </Heading>
 
             <div>
-              <Logo size="lg" />
+              <Logo size="lg" href="/" />
             </div>
           </div>
 

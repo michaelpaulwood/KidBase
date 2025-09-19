@@ -173,7 +173,10 @@ const getAuthErrorMessage = (errorCode: string): string => {
     case 'auth/user-not-found':
       return 'No account found with this email address.';
     case 'auth/wrong-password':
-      return 'Incorrect password. Please try again.';
+      return 'The email or password you entered is incorrect. Please try again.';
+    case 'auth/invalid-credential':
+    case 'auth/invalid-login-credentials':
+      return 'The email or password you entered is incorrect. Please try again.';
     case 'auth/email-already-in-use':
       return 'An account with this email already exists.';
     case 'auth/weak-password':
@@ -191,6 +194,6 @@ const getAuthErrorMessage = (errorCode: string): string => {
     case 'auth/popup-blocked':
       return 'Pop-up was blocked by your browser. Please allow pop-ups and try again.';
     default:
-      return 'An unexpected error occurred. Please try again.';
+      return 'Something went wrong. Please check your details and try again.';
   }
 };
