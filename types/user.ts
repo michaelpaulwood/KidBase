@@ -9,6 +9,13 @@ export interface Family {
   onboardingStep?: number;
   preferences?: FamilyPreferences;
   profile?: FamilyProfile;
+  parent?: ParentData;
+}
+
+export interface ParentData {
+  name: string;
+  pinHash: string;
+  createdAt: string;
 }
 
 export interface FamilyPreferences {

@@ -115,6 +115,28 @@ export const updateOnboardingStep = async (familyId: string, step: number): Prom
   }
 };
 
+// Save parent data during onboarding
+export const saveParentData = async (
+  familyId: string,
+  parentName: string,
+  pinHash: string
+): Promise<void> => {
+  try {
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      parent: {
+        name: parentName,
+        pinHash: pinHash,
+        createdAt: new Date().toISOString()
+      },
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error saving parent data:', error);
+    throw new Error('Failed to save parent information. Please try again.');
+  }
+};
+
 // Complete family onboarding
 export const completeFamilyOnboarding = async (familyId: string): Promise<void> => {
   try {

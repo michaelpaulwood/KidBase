@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { cn } from '../../lib/utils';
 import Logo from './logo';
+import PinInput from './pin-input';
 
 // Core Container Component
 interface ContainerProps {
@@ -280,5 +281,5 @@ export function Step({ step, title, description, icon, className }: StepProps) {
   );
 }
 
-// Export Logo component
-export { Logo };
+// Export Logo and PinInput components
+export { Logo, PinInput };

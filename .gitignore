@@ -39,3 +39,6 @@ next-env.d.ts
 CLAUDE.md
 KidBasePlan.md
 **/CLAUDE*.md
+
+# development scripts (keep private)
+/scripts/
