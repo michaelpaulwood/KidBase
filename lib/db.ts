@@ -8,7 +8,8 @@ import {
   getDocs,
   DocumentData,
   QueryConstraint,
-  Timestamp
+  Timestamp,
+  deleteField
 } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Family } from '../types/user';
@@ -100,12 +101,27 @@ export const stringToTimestamp = (dateString: string): Timestamp => {
   return Timestamp.fromDate(new Date(dateString));
 };
 
+// Update family onboarding step
+export const updateOnboardingStep = async (familyId: string, step: number): Promise<void> => {
+  try {
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      onboardingStep: step,
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating onboarding step:', error);
+    throw new Error('Failed to update onboarding step. Please try again.');
+  }
+};
+
 // Complete family onboarding
 export const completeFamilyOnboarding = async (familyId: string): Promise<void> => {
   try {
     const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
     await updateDoc(familyRef, {
       onboardingComplete: true,
+      onboardingStep: deleteField(), // Clean up step tracking once complete
       lastLoginAt: new Date().toISOString()
     });
   } catch (error) {

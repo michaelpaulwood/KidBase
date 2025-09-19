@@ -6,6 +6,7 @@ export interface Family {
   createdAt: string;
   lastLoginAt: string;
   onboardingComplete: boolean;
+  onboardingStep?: number;
   preferences?: FamilyPreferences;
   profile?: FamilyProfile;
 }

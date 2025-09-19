@@ -21,7 +21,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "refresh": "rm -rf .next && npm run build && npm run dev"
   },
   "dependencies": {
     "clsx": "^2.1.1",
