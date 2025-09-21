@@ -6,7 +6,7 @@ import { Container, Heading, Card, CoreButton, Badge, Logo, PinInput } from '../
 import Input from '../../../components/ui/input';
 import Loading from '../../../components/ui/loading';
 import { useAuth } from '../../../hooks/useAuth';
-import { completeFamilyOnboarding, updateOnboardingStep, saveParentData } from '../../../lib/db';
+import { completeFamilyOnboarding, updateOnboardingStep, saveParentData, saveKidData } from '../../../lib/db';
 import { hashPin } from '../../../lib/utils';
 
 export default function OnboardingPage() {
@@ -17,6 +17,11 @@ export default function OnboardingPage() {
   const [parentName, setParentName] = useState('');
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
+
+  // Form state for kid setup (visual only for now)
+  const [kidName, setKidName] = useState('');
+  const [kidPin, setKidPin] = useState('');
+  const [kidConfirmPin, setKidConfirmPin] = useState('');
 
   const { user, loading, refreshUser } = useAuth();
   const router = useRouter();
@@ -89,6 +94,29 @@ export default function OnboardingPage() {
     try {
       setIsLoading(true);
       setError(null);
+
+      // Validate kid form
+      if (!kidName.trim()) {
+        throw new Error('Please enter the kid&apos;s name');
+      }
+
+      if (kidPin.length !== 4) {
+        throw new Error('Kid PIN must be exactly 4 digits');
+      }
+
+      if (kidPin !== kidConfirmPin) {
+        throw new Error('Kid PINs do not match');
+      }
+
+      if (!/^\d{4}$/.test(kidPin)) {
+        throw new Error('Kid PIN must contain only numbers');
+      }
+
+      // Hash the kid PIN
+      const kidPinHash = await hashPin(kidPin);
+
+      // Save kid data
+      await saveKidData(user.uid, kidName.trim(), kidPinHash);
 
       // Complete the onboarding process
       await completeFamilyOnboarding(user.uid);
@@ -256,9 +284,6 @@ export default function OnboardingPage() {
         <div className="max-w-lg mx-auto w-full">
           {/* Header Section */}
           <div className="text-center mb-8">
-            <Heading level={1} size="display" className="mb-4">
-              Kids Account Setup 👶
-            </Heading>
             <div className="mb-6">
               <Logo size="lg" />
             </div>
@@ -301,9 +326,6 @@ export default function OnboardingPage() {
               {/* Family Information Display */}
               <div className="mb-8">
                 <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-cyan-500 rounded-3xl flex items-center justify-center text-2xl font-bold text-white mx-auto mb-4">
-                    👶
-                  </div>
                   <Heading level={3} size="title" className="mb-2">
                     Kids Accounts
                   </Heading>
@@ -311,30 +333,55 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
-              {/* Setup Information */}
-              <div className="space-y-4 mb-8">
-                <div className="bg-gradient-to-r from-green-50 to-cyan-50 border border-green-200 rounded-card p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="text-2xl">👶</div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-1">Kids Account Setup</h4>
-                      <p className="text-sm text-gray-600">
-                        In the future, you&apos;ll be able to create individual accounts for each child with age-appropriate features and parental controls.
-                      </p>
-                    </div>
-                  </div>
+              {/* Kid Setup Form */}
+              <div className="space-y-6 mb-8">
+                {/* Kid Name Field */}
+                <div>
+                  <label htmlFor="kidName" className="block text-sm font-medium text-gray-700 mb-2">
+                    Kid Name
+                  </label>
+                  <Input
+                    id="kidName"
+                    type="text"
+                    value={kidName}
+                    onChange={(e) => setKidName(e.target.value)}
+                    placeholder="Enter your child's name"
+                    disabled={isLoading}
+                    className="shadow-brutal"
+                    autoFocus
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    This will be used to identify your child within your family
+                  </p>
                 </div>
 
-                <div className="bg-gradient-to-r from-primary-50 to-warm-50 border border-primary-200 rounded-card p-4">
-                  <div className="flex items-start space-x-3">
-                    <div className="text-2xl">🎯</div>
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-1">Ready to Launch!</h4>
-                      <p className="text-sm text-gray-600">
-                        Complete the setup to access your family dashboard and start exploring all the features KidBase has to offer.
-                      </p>
-                    </div>
-                  </div>
+                {/* Create PIN */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Create PIN for Kid
+                  </label>
+                  <PinInput
+                    value={kidPin}
+                    onChange={setKidPin}
+                    disabled={isLoading}
+                    error={error?.includes('PIN') || false}
+                  />
+                  <p className="text-sm text-gray-500 mt-2 text-center">
+                    Choose a 4-digit PIN for your child&apos;s secure access
+                  </p>
+                </div>
+
+                {/* Confirm PIN */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Confirm Kid PIN
+                  </label>
+                  <PinInput
+                    value={kidConfirmPin}
+                    onChange={setKidConfirmPin}
+                    disabled={isLoading}
+                    error={error?.includes('match') || false}
+                  />
                 </div>
               </div>
 
@@ -343,7 +390,7 @@ export default function OnboardingPage() {
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isLoading}
+                disabled={isLoading || !kidName.trim() || kidPin.length !== 4 || kidConfirmPin.length !== 4}
                 onClick={handleCompleteOnboarding}
               >
                 {isLoading ? 'Completing Setup...' : 'Complete Family Setup 🚀'}

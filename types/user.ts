@@ -10,12 +10,21 @@ export interface Family {
   preferences?: FamilyPreferences;
   profile?: FamilyProfile;
   parent?: ParentData;
+  kids?: { [kidDisplayName: string]: KidData };
 }
 
 export interface ParentData {
   name: string;
   pinHash: string;
   createdAt: string;
+}
+
+export interface KidData {
+  uuid: string;       // Unique identifier for future kids-only database
+  name: string;       // Kid's name
+  pinHash: string;    // Hashed PIN for kid access
+  kidNumber: number;  // Sequential number within family (1, 2, 3...)
+  createdAt: string;  // When kid account was created
 }
 
 export interface FamilyPreferences {

@@ -55,3 +55,8 @@ export async function verifyPin(pin: string, hash: string): Promise<boolean> {
     return false;
   }
 }
+
+// Generate UUID for kid accounts
+export function generateKidUUID(): string {
+  return crypto.randomUUID();
+}

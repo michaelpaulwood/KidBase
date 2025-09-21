@@ -12,7 +12,8 @@ import {
   deleteField
 } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Family } from '../types/user';
+import type { Family, KidData } from '../types/user';
+import { generateKidUUID } from './utils';
 
 // Use the Family interface from types/user.ts
 export type FamilyData = Family;
@@ -134,6 +135,48 @@ export const saveParentData = async (
   } catch (error) {
     console.error('Error saving parent data:', error);
     throw new Error('Failed to save parent information. Please try again.');
+  }
+};
+
+// Save kid data during onboarding
+export const saveKidData = async (
+  familyId: string,
+  kidName: string,
+  pinHash: string
+): Promise<void> => {
+  try {
+    // First, get the current family data to determine the next kid number
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    // Calculate next kid number (count existing kids + 1)
+    const existingKids = familyData.kids || {};
+    const kidNumber = Object.keys(existingKids).length + 1;
+
+    // Generate unique display name and UUID
+    const kidDisplayName = `kid${kidNumber}`;
+    const kidUUID = generateKidUUID();
+
+    // Create the kid data object
+    const kidData: KidData = {
+      uuid: kidUUID,
+      name: kidName,
+      pinHash: pinHash,
+      kidNumber: kidNumber,
+      createdAt: new Date().toISOString()
+    };
+
+    // Update the family document with new kid
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      [`kids.${kidDisplayName}`]: kidData,
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error saving kid data:', error);
+    throw new Error('Failed to save kid information. Please try again.');
   }
 };
 
