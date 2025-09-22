@@ -69,7 +69,7 @@ export default function PinVerificationModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md" hover={false}>
         <div className="text-center mb-6">
           <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-core flex items-center justify-center text-3xl mb-4 mx-auto">
             {memberType === 'parent' ? '👨‍👩‍👦' : memberType === 'kid' ? '👦👧' : '🔐'}

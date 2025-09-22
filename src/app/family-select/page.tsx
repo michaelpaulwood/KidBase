@@ -108,8 +108,8 @@ export default function FamilySelect() {
     if (selectedMember.type === 'parent') {
       router.push('/dashboard');
     } else {
-      // For now, redirect to dashboard (kid dashboard in Phase 4)
-      router.push('/dashboard');
+      // Redirect kids to kid dashboard
+      router.push('/kid-dashboard');
     }
   };
 
@@ -151,9 +151,9 @@ export default function FamilySelect() {
                 </Heading>
                 <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
                   {familyKids.map((kid) => (
-                    <Card key={kid.uuid} className="text-center">
+                    <Card key={kid.uuid} className="text-center" hover={false}>
                       <div
-                        className="cursor-pointer hover:shadow-brutal-lg transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1"
+                        className="cursor-pointer"
                         onClick={() => handleKidSelect(kid)}
                       >
                         <div className={`w-24 h-24 bg-gradient-to-br ${kid.color} rounded-core flex items-center justify-center text-4xl mb-6 mx-auto`}>
@@ -167,7 +167,7 @@ export default function FamilySelect() {
                         </p>
                         <CoreButton
                           variant="primary"
-                          className="w-full"
+                          className="w-full hover:bg-primary-500 hover:shadow-brutal"
                           onClick={() => handleKidSelect(kid)}
                         >
                           Enter Account
@@ -186,9 +186,9 @@ export default function FamilySelect() {
                   Parent Account
                 </Heading>
                 <div className="max-w-md mx-auto">
-                  <Card className="text-center">
+                  <Card className="text-center" hover={false}>
                     <div
-                      className="cursor-pointer hover:shadow-brutal-lg transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1"
+                      className="cursor-pointer"
                       onClick={handleParentSelect}
                     >
                       <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-primary-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
@@ -202,7 +202,7 @@ export default function FamilySelect() {
                       </p>
                       <CoreButton
                         variant="primary"
-                        className="w-full"
+                        className="w-full hover:bg-primary-500 hover:shadow-brutal"
                         onClick={handleParentSelect}
                       >
                         Enter Account
