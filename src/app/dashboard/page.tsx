@@ -40,6 +40,8 @@ export default function Dashboard() {
   const handleLogout = async () => {
     if (confirm('Are you sure you want to logout?')) {
       try {
+        // Clear selected family member on logout
+        sessionStorage.removeItem('selectedFamilyMember');
         await signOut();
         router.push('/');
       } catch (error) {

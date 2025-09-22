@@ -5,6 +5,7 @@
 export { default as Button } from './ui/button';
 export { default as Input } from './ui/input';
 export { default as PinInput } from './ui/pin-input';
+export { default as PinVerificationModal } from './ui/pin-verification-modal';
 export { default as Loading, LoadingOverlay, LoadingSkeleton, LoadingButton } from './ui/loading';
 export { useToast, ToastProvider } from './ui/toast';
 export { default as ErrorBoundary } from './ui/error-boundary';

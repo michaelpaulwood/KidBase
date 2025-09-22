@@ -69,24 +69,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setLoading(true);
       setError(null);
-      
-      const authUser = await signUpWithEmailAndPassword({ email, password, name });
-      const familyData = await getFamilyDocument(authUser.uid);
 
-      if (familyData) {
-        // Convert family data to user format for component compatibility
-        setFamily({
-          uid: familyData.uid,
-          email: familyData.email,
-          displayName: familyData.displayName,
-          photoURL: familyData.photoURL,
-          createdAt: familyData.createdAt,
-          lastLoginAt: familyData.lastLoginAt,
-          onboardingComplete: familyData.onboardingComplete,
-          preferences: familyData.preferences,
-          profile: familyData.profile
-        });
-      }
+      await signUpWithEmailAndPassword({ email, password, name });
+      // Family data will be loaded by onAuthStateChanged via formatFamily()
+
     } catch (error: any) {
       console.error('Sign up error:', error);
       setError(error.message);
@@ -101,24 +87,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setLoading(true);
       setError(null);
-      
-      const authUser = await loginWithEmailAndPassword({ email, password });
-      const familyData = await getFamilyDocument(authUser.uid);
 
-      if (familyData) {
-        // Convert family data to user format for component compatibility
-        setFamily({
-          uid: familyData.uid,
-          email: familyData.email,
-          displayName: familyData.displayName,
-          photoURL: familyData.photoURL,
-          createdAt: familyData.createdAt,
-          lastLoginAt: familyData.lastLoginAt,
-          onboardingComplete: familyData.onboardingComplete,
-          preferences: familyData.preferences,
-          profile: familyData.profile
-        });
-      }
+      await loginWithEmailAndPassword({ email, password });
+      // Family data will be loaded by onAuthStateChanged via formatFamily()
+
     } catch (error: any) {
       console.error('Sign in error:', error);
       setError(error.message);
@@ -133,24 +105,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setLoading(true);
       setError(null);
-      
-      const authUser = await signInWithGoogle();
-      const familyData = await getFamilyDocument(authUser.uid);
 
-      if (familyData) {
-        // Convert family data to user format for component compatibility
-        setFamily({
-          uid: familyData.uid,
-          email: familyData.email,
-          displayName: familyData.displayName,
-          photoURL: familyData.photoURL,
-          createdAt: familyData.createdAt,
-          lastLoginAt: familyData.lastLoginAt,
-          onboardingComplete: familyData.onboardingComplete,
-          preferences: familyData.preferences,
-          profile: familyData.profile
-        });
-      }
+      await signInWithGoogle();
+      // Family data will be loaded by onAuthStateChanged via formatFamily()
+
     } catch (error: any) {
       console.error('Google sign in error:', error);
       setError(error.message);
