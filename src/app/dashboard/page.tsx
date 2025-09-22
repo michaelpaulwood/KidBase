@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Container, Section, Heading, Card, CoreButton, Badge } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
@@ -81,45 +80,15 @@ export default function Dashboard() {
           {/* Welcome Header */}
           <div className="text-center mb-16">
             <Heading level={1} size="display" className="mb-4">
-              Welcome back, {user.displayName?.split(' ')[0] || 'Developer'}! 👋
+              Hi, {user.displayName || 'Family'} family! 👋
             </Heading>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Your KidBase dashboard is ready. Here&apos;s everything you need to manage your projects and account.
+              Choose your account to get in.
             </p>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-warm-500 rounded-core flex items-center justify-center text-2xl mb-4 mx-auto">
-                🚀
-              </div>
-              <Heading level={3} size="title" className="mb-2">Active Projects</Heading>
-              <div className="text-3xl font-bold text-primary-600 mb-2">3</div>
-              <p className="text-gray-600">Projects in development</p>
-            </Card>
-
-            <Card className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-core flex items-center justify-center text-2xl mb-4 mx-auto">
-                ✅
-              </div>
-              <Heading level={3} size="title" className="mb-2">Tasks Completed</Heading>
-              <div className="text-3xl font-bold text-secondary-600 mb-2">24</div>
-              <p className="text-gray-600">This month</p>
-            </Card>
-
-            <Card className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-core flex items-center justify-center text-2xl mb-4 mx-auto">
-                📊
-              </div>
-              <Heading level={3} size="title" className="mb-2">Success Rate</Heading>
-              <div className="text-3xl font-bold text-green-600 mb-2">98%</div>
-              <p className="text-gray-600">Deployment success</p>
-            </Card>
-          </div>
-
-          {/* Profile & Quick Actions Grid */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          {/* Profile Section */}
+          <div className="max-w-2xl mx-auto mb-16">
             {/* Profile Section */}
             <Card>
               <Heading level={3} size="title" className="mb-6">Profile Information</Heading>
@@ -163,76 +132,8 @@ export default function Dashboard() {
               </CoreButton>
             </Card>
 
-            {/* Quick Actions */}
-            <Card>
-              <Heading level={3} size="title" className="mb-6">Quick Actions</Heading>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <CoreButton 
-                  variant="outline" 
-                  className="h-24 flex-col justify-center space-y-2"
-                  onClick={() => alert('Feature coming soon!')}
-                >
-                  <div className="text-2xl">🆕</div>
-                  <span>New Project</span>
-                </CoreButton>
-                
-                <CoreButton 
-                  variant="outline" 
-                  className="h-24 flex-col justify-center space-y-2"
-                  onClick={() => alert('Feature coming soon!')}
-                >
-                  <div className="text-2xl">📈</div>
-                  <span>Analytics</span>
-                </CoreButton>
-                
-                <CoreButton 
-                  variant="outline" 
-                  className="h-24 flex-col justify-center space-y-2"
-                  onClick={() => alert('Feature coming soon!')}
-                >
-                  <div className="text-2xl">⚙️</div>
-                  <span>Settings</span>
-                </CoreButton>
-                
-                <CoreButton 
-                  variant="outline" 
-                  className="h-24 flex-col justify-center space-y-2"
-                  onClick={() => alert('Help documentation coming soon!')}
-                >
-                  <div className="text-2xl">❓</div>
-                  <span>Help</span>
-                </CoreButton>
-              </div>
-            </Card>
           </div>
 
-          {/* Getting Started Section */}
-          <Card className="text-center">
-            <div className="max-w-2xl mx-auto">
-              <div className="w-20 h-20 bg-gradient-to-br from-warm-400 to-primary-500 rounded-core flex items-center justify-center text-3xl mb-6 mx-auto">
-                🎯
-              </div>
-              <Heading level={3} size="heading" className="mb-4">Ready to build something amazing?</Heading>
-              <p className="text-lg text-gray-600 mb-8">
-                Your KidBase setup is complete. Start creating your next project with our powerful tools and integrations.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <CoreButton 
-                  variant="primary" 
-                  size="lg"
-                  onClick={() => alert('Project creation coming soon!')}
-                >
-                  Create New Project →
-                </CoreButton>
-                <Link href="/">
-                  <CoreButton variant="outline" size="lg">
-                    View Documentation
-                  </CoreButton>
-                </Link>
-              </div>
-            </div>
-          </Card>
         </Container>
       </Section>
     </main>
