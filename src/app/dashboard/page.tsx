@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Container, Section, Heading, Card, CoreButton, Badge } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
@@ -10,6 +10,7 @@ import { useAuth } from '../../../hooks/useAuth';
 export default function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -24,6 +25,17 @@ export default function Dashboard() {
       router.push('/onboarding');
     }
   }, [user, loading, router]);
+
+  // Phase 2: Redirect to family member selection if no user selected
+  // Bypass with ?direct=true for testing current dashboard
+  useEffect(() => {
+    const isDirect = searchParams.get('direct') === 'true';
+    const hasSelectedUser = sessionStorage.getItem('selectedFamilyMember');
+
+    if (!loading && user && user.onboardingComplete && !hasSelectedUser && !isDirect) {
+      router.push('/family-select');
+    }
+  }, [user, loading, router, searchParams]);
 
   const handleLogout = async () => {
     if (confirm('Are you sure you want to logout?')) {
