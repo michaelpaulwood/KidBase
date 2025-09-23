@@ -180,6 +180,40 @@ export const saveKidData = async (
   }
 };
 
+// Update kid name
+export const updateKidName = async (
+  familyId: string,
+  kidDisplayName: string,
+  newName: string
+): Promise<void> => {
+  try {
+    // First, verify the kid exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.kids || !familyData.kids[kidDisplayName]) {
+      throw new Error('Kid not found');
+    }
+
+    // Validate new name
+    if (!newName.trim()) {
+      throw new Error('Kid name cannot be empty');
+    }
+
+    // Update only the name field of the specific kid
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      [`kids.${kidDisplayName}.name`]: newName.trim(),
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating kid name:', error);
+    throw new Error('Failed to update kid name. Please try again.');
+  }
+};
+
 // Delete kid data
 export const deleteKidData = async (
   familyId: string,

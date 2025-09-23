@@ -6,6 +6,7 @@ import { Container, Section, Heading, Card, CoreButton, Badge, ConfirmationModal
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
 import AddKidModal from '../../../components/ui/add-kid-modal';
+import EditNameModal from '../../../components/ui/edit-name-modal';
 import { useAuth } from '../../../hooks/useAuth';
 import { deleteKidData } from '../../../lib/db';
 
@@ -17,6 +18,8 @@ export default function Dashboard() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [kidToDelete, setKidToDelete] = useState<{ key: string; name: string } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditNameModalOpen, setIsEditNameModalOpen] = useState(false);
+  const [kidToEdit, setKidToEdit] = useState<{ key: string; name: string } | null>(null);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -93,6 +96,23 @@ export default function Dashboard() {
     setKidToDelete(null);
   };
 
+  const handleEditKidName = (kidKey: string, kidName: string) => {
+    setKidToEdit({ key: kidKey, name: kidName });
+    setIsEditNameModalOpen(true);
+  };
+
+  const handleEditNameSuccess = async () => {
+    // Refresh family data to show the updated name
+    await refreshUser();
+    setIsEditNameModalOpen(false);
+    setKidToEdit(null);
+  };
+
+  const handleCancelEditName = () => {
+    setIsEditNameModalOpen(false);
+    setKidToEdit(null);
+  };
+
   // Show loading while checking auth state
   if (loading) {
     return (
@@ -164,10 +184,10 @@ export default function Dashboard() {
                       <div className="flex items-center space-x-3">
                         <button
                           className="text-blue-600 hover:text-blue-800 text-xl transition-colors"
-                          title="Edit kid"
-                          onClick={() => alert('Edit kid functionality coming soon!')}
+                          title="Edit kid name"
+                          onClick={() => handleEditKidName(kidKey, kidData.name)}
                         >
-                          ✏️
+                          📝
                         </button>
                         <button
                           className="text-red-600 hover:text-red-800 text-xl transition-colors"
@@ -255,6 +275,18 @@ export default function Dashboard() {
             console.log('Kid added successfully!');
           }}
           userId={user.uid}
+        />
+      )}
+
+      {/* Edit Kid Name Modal */}
+      {user && kidToEdit && (
+        <EditNameModal
+          isOpen={isEditNameModalOpen}
+          onClose={handleCancelEditName}
+          onSuccess={handleEditNameSuccess}
+          userId={user.uid}
+          kidKey={kidToEdit.key}
+          currentName={kidToEdit.name}
         />
       )}
 
