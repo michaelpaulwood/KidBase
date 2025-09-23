@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Container, Section, Heading, Card, CoreButton, Badge } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
+import AddKidModal from '../../../components/ui/add-kid-modal';
 import { useAuth } from '../../../hooks/useAuth';
 
 export default function Dashboard() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, refreshUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isAddKidModalOpen, setIsAddKidModalOpen] = useState(false);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -110,6 +112,57 @@ export default function Dashboard() {
             </p>
           </div>
 
+          {/* Kids Management Section */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <Card>
+              <Heading level={3} size="title" className="mb-6">Kids Management</Heading>
+
+              {user.kids && Object.keys(user.kids).length > 0 ? (
+                <div className="space-y-4 mb-6">
+                  {Object.entries(user.kids).map(([kidKey, kidData], index) => (
+                    <div key={kidKey} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-2xl">
+                          {index % 2 === 0 ? '👧' : '👦'}
+                        </span>
+                        <div>
+                          <Heading level={4} size="title" className="mb-0">{kidData.name}</Heading>
+                          <p className="text-sm text-gray-500">Created {new Date(kidData.createdAt).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <button
+                          className="text-blue-600 hover:text-blue-800 text-xl transition-colors"
+                          title="Edit kid"
+                          onClick={() => alert('Edit kid functionality coming soon!')}
+                        >
+                          ✏️
+                        </button>
+                        <button
+                          className="text-red-600 hover:text-red-800 text-xl transition-colors"
+                          title="Delete kid"
+                          onClick={() => alert('Delete kid functionality coming soon!')}
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 mb-6">
+                  <div className="text-6xl mb-4">👶</div>
+                  <p className="text-gray-500 mb-4">No kids added yet</p>
+                  <p className="text-sm text-gray-400">Add your first kid to get started!</p>
+                </div>
+              )}
+
+              <CoreButton variant="primary" onClick={() => setIsAddKidModalOpen(true)} className="w-full sm:w-auto">
+                Add Kid
+              </CoreButton>
+            </Card>
+          </div>
+
           {/* Profile Section */}
           <div className="max-w-2xl mx-auto mb-16">
             {/* Profile Section */}
@@ -159,6 +212,20 @@ export default function Dashboard() {
 
         </Container>
       </Section>
+
+      {/* Add Kid Modal */}
+      {user && (
+        <AddKidModal
+          isOpen={isAddKidModalOpen}
+          onClose={() => setIsAddKidModalOpen(false)}
+          onSuccess={async () => {
+            // Refresh family data to show the new kid
+            await refreshUser();
+            console.log('Kid added successfully!');
+          }}
+          userId={user.uid}
+        />
+      )}
     </main>
   );
 }
