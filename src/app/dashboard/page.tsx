@@ -114,7 +114,7 @@ export default function Dashboard() {
 
           {/* Kids Management Section */}
           <div className="max-w-2xl mx-auto mb-8">
-            <Card>
+            <Card hover={false}>
               <Heading level={3} size="title" className="mb-6">Kids Management</Heading>
 
               {user.kids && Object.keys(user.kids).length > 0 ? (
@@ -166,7 +166,7 @@ export default function Dashboard() {
           {/* Profile Section */}
           <div className="max-w-2xl mx-auto mb-16">
             {/* Profile Section */}
-            <Card>
+            <Card hover={false}>
               <Heading level={3} size="title" className="mb-6">Profile Information</Heading>
               
               <div className="flex items-start space-x-6 mb-6">
