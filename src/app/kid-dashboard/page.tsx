@@ -97,11 +97,11 @@ export default function KidDashboard() {
         <Container>
           <div className="flex justify-between items-center py-4">
             <Logo size="sm" />
-            <div className="flex items-center space-x-4">
-              <CoreButton variant="outline" onClick={handleSwitchUser}>
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <CoreButton variant="outline" onClick={handleSwitchUser} className="text-xs sm:text-sm">
                 Switch User
               </CoreButton>
-              <CoreButton variant="outline" onClick={handleLogout}>
+              <CoreButton variant="outline" onClick={handleLogout} className="text-xs sm:text-sm">
                 Logout
               </CoreButton>
             </div>

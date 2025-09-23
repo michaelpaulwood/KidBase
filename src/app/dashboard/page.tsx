@@ -54,6 +54,12 @@ export default function Dashboard() {
     alert('Edit profile functionality will be implemented with Firebase');
   };
 
+  const handleSwitchUser = () => {
+    // Clear selected family member and go back to family select
+    sessionStorage.removeItem('selectedFamilyMember');
+    router.push('/family-select');
+  };
+
   // Show loading while checking auth state
   if (loading) {
     return (
@@ -80,8 +86,11 @@ export default function Dashboard() {
         <Container>
           <div className="flex justify-between items-center py-6">
             <Logo size="xs" href="/" />
-            <div className="flex items-center space-x-6">
-              <CoreButton variant="outline" onClick={handleLogout}>
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <CoreButton variant="outline" onClick={handleSwitchUser} className="text-xs sm:text-sm">
+                Switch User
+              </CoreButton>
+              <CoreButton variant="outline" onClick={handleLogout} className="text-xs sm:text-sm">
                 Logout
               </CoreButton>
             </div>
