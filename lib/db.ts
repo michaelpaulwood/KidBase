@@ -214,6 +214,48 @@ export const updateKidName = async (
   }
 };
 
+// Update kid PIN (with current PIN verification)
+export const updateKidPin = async (
+  familyId: string,
+  kidDisplayName: string,
+  currentPinHash: string,
+  newPinHash: string
+): Promise<void> => {
+  try {
+    // First, verify the kid exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.kids || !familyData.kids[kidDisplayName]) {
+      throw new Error('Kid not found');
+    }
+
+    const kidData = familyData.kids[kidDisplayName];
+
+    // Verify current PIN matches
+    if (kidData.pinHash !== currentPinHash) {
+      throw new Error('Current PIN is incorrect');
+    }
+
+    // Validate new PIN hash
+    if (!newPinHash) {
+      throw new Error('New PIN is required');
+    }
+
+    // Update only the PIN field of the specific kid
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      [`kids.${kidDisplayName}.pinHash`]: newPinHash,
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating kid PIN:', error);
+    throw new Error('Failed to update kid PIN. Please try again.');
+  }
+};
+
 // Delete kid data
 export const deleteKidData = async (
   familyId: string,

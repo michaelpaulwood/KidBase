@@ -7,6 +7,7 @@ import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
 import AddKidModal from '../../../components/ui/add-kid-modal';
 import EditNameModal from '../../../components/ui/edit-name-modal';
+import ChangePinModal from '../../../components/ui/change-pin-modal';
 import { useAuth } from '../../../hooks/useAuth';
 import { deleteKidData } from '../../../lib/db';
 
@@ -20,6 +21,8 @@ export default function Dashboard() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditNameModalOpen, setIsEditNameModalOpen] = useState(false);
   const [kidToEdit, setKidToEdit] = useState<{ key: string; name: string } | null>(null);
+  const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
+  const [kidToChangePin, setKidToChangePin] = useState<{ key: string; name: string } | null>(null);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -113,6 +116,23 @@ export default function Dashboard() {
     setKidToEdit(null);
   };
 
+  const handleChangeKidPin = (kidKey: string, kidName: string) => {
+    setKidToChangePin({ key: kidKey, name: kidName });
+    setIsChangePinModalOpen(true);
+  };
+
+  const handleChangePinSuccess = async () => {
+    // Refresh family data (PIN changes are internal, UI doesn't need to update)
+    await refreshUser();
+    setIsChangePinModalOpen(false);
+    setKidToChangePin(null);
+  };
+
+  const handleCancelChangePin = () => {
+    setIsChangePinModalOpen(false);
+    setKidToChangePin(null);
+  };
+
   // Show loading while checking auth state
   if (loading) {
     return (
@@ -188,6 +208,13 @@ export default function Dashboard() {
                           onClick={() => handleEditKidName(kidKey, kidData.name)}
                         >
                           📝
+                        </button>
+                        <button
+                          className="text-green-600 hover:text-green-800 text-xl transition-colors"
+                          title="Change PIN"
+                          onClick={() => handleChangeKidPin(kidKey, kidData.name)}
+                        >
+                          🔐
                         </button>
                         <button
                           className="text-red-600 hover:text-red-800 text-xl transition-colors"
@@ -287,6 +314,18 @@ export default function Dashboard() {
           userId={user.uid}
           kidKey={kidToEdit.key}
           currentName={kidToEdit.name}
+        />
+      )}
+
+      {/* Change Kid PIN Modal */}
+      {user && kidToChangePin && (
+        <ChangePinModal
+          isOpen={isChangePinModalOpen}
+          onClose={handleCancelChangePin}
+          onSuccess={handleChangePinSuccess}
+          userId={user.uid}
+          kidKey={kidToChangePin.key}
+          kidName={kidToChangePin.name}
         />
       )}
 
