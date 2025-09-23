@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { cn } from '../../lib/utils';
 import Logo from './logo';
 import PinInput from './pin-input';
+import ConfirmationModal from './confirmation-modal';
 
 // Core Container Component
 interface ContainerProps {
@@ -281,5 +282,5 @@ export function Step({ step, title, description, icon, className }: StepProps) {
   );
 }
 
-// Export Logo and PinInput components
-export { Logo, PinInput };
+// Export Logo, PinInput, and ConfirmationModal components
+export { Logo, PinInput, ConfirmationModal };

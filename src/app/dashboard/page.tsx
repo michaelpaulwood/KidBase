@@ -2,17 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Container, Section, Heading, Card, CoreButton, Badge } from '../../../components/ui/design-system';
+import { Container, Section, Heading, Card, CoreButton, Badge, ConfirmationModal } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
 import AddKidModal from '../../../components/ui/add-kid-modal';
 import { useAuth } from '../../../hooks/useAuth';
+import { deleteKidData } from '../../../lib/db';
 
 export default function Dashboard() {
   const { user, loading, signOut, refreshUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isAddKidModalOpen, setIsAddKidModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [kidToDelete, setKidToDelete] = useState<{ key: string; name: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -60,6 +64,33 @@ export default function Dashboard() {
     // Clear selected family member and go back to family select
     sessionStorage.removeItem('selectedFamilyMember');
     router.push('/family-select');
+  };
+
+  const handleDeleteKid = (kidKey: string, kidName: string) => {
+    setKidToDelete({ key: kidKey, name: kidName });
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!kidToDelete || !user) return;
+
+    setIsDeleting(true);
+    try {
+      await deleteKidData(user.uid, kidToDelete.key);
+      await refreshUser();
+      setIsDeleteModalOpen(false);
+      setKidToDelete(null);
+    } catch (error) {
+      console.error('Error deleting kid:', error);
+      alert('Failed to delete kid. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setKidToDelete(null);
   };
 
   // Show loading while checking auth state
@@ -141,7 +172,7 @@ export default function Dashboard() {
                         <button
                           className="text-red-600 hover:text-red-800 text-xl transition-colors"
                           title="Delete kid"
-                          onClick={() => alert('Delete kid functionality coming soon!')}
+                          onClick={() => handleDeleteKid(kidKey, kidData.name)}
                         >
                           🗑️
                         </button>
@@ -226,6 +257,19 @@ export default function Dashboard() {
           userId={user.uid}
         />
       )}
+
+      {/* Delete Kid Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="Delete Kid Account"
+        message={`Are you sure you want to delete ${kidToDelete?.name}'s account? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isLoading={isDeleting}
+        variant="danger"
+      />
     </main>
   );
 }

@@ -180,6 +180,34 @@ export const saveKidData = async (
   }
 };
 
+// Delete kid data
+export const deleteKidData = async (
+  familyId: string,
+  kidDisplayName: string
+): Promise<void> => {
+  try {
+    // First, verify the kid exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.kids || !familyData.kids[kidDisplayName]) {
+      throw new Error('Kid not found');
+    }
+
+    // Delete the specific kid from the family document
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      [`kids.${kidDisplayName}`]: deleteField(),
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting kid data:', error);
+    throw new Error('Failed to delete kid. Please try again.');
+  }
+};
+
 // Complete family onboarding
 export const completeFamilyOnboarding = async (familyId: string): Promise<void> => {
   try {
