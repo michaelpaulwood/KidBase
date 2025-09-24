@@ -110,6 +110,18 @@ export default function AuthPage() {
     }
   };
 
+  const handleFormToggle = () => {
+    setIsLogin(!isLogin);
+    // Clear auth errors when switching between login/signup
+    if (error) {
+      clearError();
+    }
+    // Clear form validation errors
+    setErrors({});
+    // Clear password reset success message
+    setResetEmailSent(false);
+  };
+
   return (
     <main className="min-h-screen ">
       <Container>
@@ -255,7 +267,7 @@ export default function AuthPage() {
                 {' '}
                 <button
                   type="button"
-                  onClick={() => setIsLogin(!isLogin)}
+                  onClick={handleFormToggle}
                   className="font-semibold font-sans text-primary-600 hover:text-primary-700 transition-colors underline"
                 >
                   {isLogin ? 'Sign up' : 'Sign in'}
