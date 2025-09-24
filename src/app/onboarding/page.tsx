@@ -164,7 +164,7 @@ export default function OnboardingPage() {
               <div className="mb-6">
                 <Logo size="lg" />
               </div>
-              <p className="text-lg text-gray-600 max-w-md mx-auto">
+              <p className="text-lg font-sans text-gray-600 max-w-md mx-auto">
                 Welcome to KidBase! Let&apos;s start by setting up your parent account first.
               </p>
             </div>
@@ -183,7 +183,7 @@ export default function OnboardingPage() {
                   <div className="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center text-sm font-medium">
                     2
                   </div>
-                  <span className="ml-2 text-sm text-gray-500">Kids Setup</span>
+                  <span className="ml-2 text-sm font-sans text-gray-500">Kids Setup</span>
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function OnboardingPage() {
                 <div className="space-y-6 mb-8">
                   {/* Parent Name Field */}
                   <div>
-                    <label htmlFor="parentName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="parentName" className="block text-sm font-medium font-sans text-gray-700 mb-2">
                       Your Name
                     </label>
                     <Input
@@ -217,14 +217,14 @@ export default function OnboardingPage() {
                       className="shadow-brutal"
                       autoFocus
                     />
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm font-sans text-gray-500 mt-1">
                       This will be used to identify you within your family
                     </p>
                   </div>
 
                   {/* PIN Setup */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                       Create Your PIN
                     </label>
                     <PinInput
@@ -233,14 +233,14 @@ export default function OnboardingPage() {
                       disabled={isLoading}
                       error={error?.includes('PIN') || false}
                     />
-                    <p className="text-sm text-gray-500 mt-2 text-center">
+                    <p className="text-sm font-sans text-gray-500 mt-2 text-center">
                       Choose a 4-digit PIN for secure access
                     </p>
                   </div>
 
                   {/* Confirm PIN */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                       Confirm Your PIN
                     </label>
                     <PinInput
@@ -265,7 +265,7 @@ export default function OnboardingPage() {
 
                 {/* Additional Information */}
                 <div className="mt-6 text-center">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm font-sans text-gray-500">
                     Step 1 of 2 - Your information will be securely encrypted
                   </p>
                 </div>
@@ -337,7 +337,7 @@ export default function OnboardingPage() {
               <div className="space-y-6 mb-8">
                 {/* Kid Name Field */}
                 <div>
-                  <label htmlFor="kidName" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="kidName" className="block text-sm font-medium font-sans text-gray-700 mb-2">
                     Kid Name
                   </label>
                   <Input
@@ -350,14 +350,14 @@ export default function OnboardingPage() {
                     className="shadow-brutal"
                     autoFocus
                   />
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm font-sans text-gray-500 mt-1">
                     This will be used to identify your child within your family
                   </p>
                 </div>
 
                 {/* Create PIN */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                     Create PIN for Kid
                   </label>
                   <PinInput
@@ -366,14 +366,14 @@ export default function OnboardingPage() {
                     disabled={isLoading}
                     error={error?.includes('PIN') || false}
                   />
-                  <p className="text-sm text-gray-500 mt-2 text-center">
+                  <p className="text-sm font-sans text-gray-500 mt-2 text-center">
                     Choose a 4-digit PIN for your child&apos;s secure access
                   </p>
                 </div>
 
                 {/* Confirm PIN */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                     Confirm Kid PIN
                   </label>
                   <PinInput
@@ -398,7 +398,7 @@ export default function OnboardingPage() {
 
               {/* Additional Information */}
               <div className="mt-6 text-center">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm font-sans text-gray-500">
                   Step 2 of 2 - This will activate your dashboard and family features
                 </p>
               </div>

@@ -93,7 +93,7 @@ export default function AddKidModal({ isOpen, onClose, onSuccess, userId }: AddK
 
         {/* PIN Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
             Create 4-Digit PIN
           </label>
           <PinInput
@@ -106,7 +106,7 @@ export default function AddKidModal({ isOpen, onClose, onSuccess, userId }: AddK
 
         {/* Confirm PIN Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
             Confirm PIN
           </label>
           <PinInput

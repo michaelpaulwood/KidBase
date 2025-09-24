@@ -107,7 +107,7 @@ export default function ChangePinModal({
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Current PIN Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
             Current PIN
           </label>
           <PinInput
@@ -120,7 +120,7 @@ export default function ChangePinModal({
 
         {/* New PIN Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
             New 4-Digit PIN
           </label>
           <PinInput
@@ -133,7 +133,7 @@ export default function ChangePinModal({
 
         {/* Confirm New PIN Input */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
             Confirm New PIN
           </label>
           <PinInput

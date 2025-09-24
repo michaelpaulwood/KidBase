@@ -149,7 +149,7 @@ export default function AuthPage() {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 {!isLogin && (
                   <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                       Family Name {true && <span className="text-red-500 ml-1">*</span>}
                     </label>
                     <input
@@ -168,7 +168,7 @@ export default function AuthPage() {
                 )}
 
                 <div className="w-full">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                     Email Address {true && <span className="text-red-500 ml-1">*</span>}
                   </label>
                   <input
@@ -186,7 +186,7 @@ export default function AuthPage() {
                 </div>
 
                 <div className="w-full">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                     Password {true && <span className="text-red-500 ml-1">*</span>}
                   </label>
                   <input
@@ -205,7 +205,7 @@ export default function AuthPage() {
 
                 {!isLogin && (
                   <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
                       Confirm Password {true && <span className="text-red-500 ml-1">*</span>}
                     </label>
                     <input
@@ -228,7 +228,7 @@ export default function AuthPage() {
                     <button
                       type="button"
                       onClick={handleForgotPassword}
-                      className="text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors"
+                      className="text-sm font-medium font-sans text-primary-600 hover:text-primary-700 transition-colors"
                     >
                       Forgot your password?
                     </button>
@@ -250,13 +250,13 @@ export default function AuthPage() {
 
             {/* Account Toggle - Below Form */}
             <div className="mt-8 text-center">
-              <p className="text-gray-600">
+              <p className="text-gray-600 font-sans">
                 {isLogin ? "Don't have an account yet?" : 'Already have an account?'}
                 {' '}
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="font-semibold text-primary-600 hover:text-primary-700 transition-colors underline"
+                  className="font-semibold font-sans text-primary-600 hover:text-primary-700 transition-colors underline"
                 >
                   {isLogin ? 'Sign up' : 'Sign in'}
                 </button>
