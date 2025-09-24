@@ -208,48 +208,51 @@ export default function KidDashboard() {
               </Heading>
 
               {/* Settings Options */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {/* Change Name Option */}
-                <button
+                <CoreButton
+                  variant="outline"
                   onClick={() => setActiveSubModal('name')}
-                  className="w-full flex items-center space-x-3 p-3 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 rounded-lg transition-colors"
+                  className="w-full !bg-blue-100 hover:!bg-blue-200 !border-black !text-blue-700 hover:!text-blue-800"
                 >
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
-                    📝
+                  <div className="flex items-center space-x-3">
+                    <span className="text-xl">📝</span>
+                    <div className="text-left flex-1">
+                      <div className="font-bold text-sm">Change My Name</div>
+                      <div className="text-xs opacity-75">Update what people call you</div>
+                    </div>
                   </div>
-                  <div className="text-left flex-1">
-                    <div className="font-bold text-blue-700 text-sm">Change My Name</div>
-                    <div className="text-blue-600 text-xs">Update what people call you</div>
-                  </div>
-                </button>
+                </CoreButton>
 
                 {/* Change Emoji Option */}
-                <button
+                <CoreButton
+                  variant="outline"
                   onClick={() => setActiveSubModal('emoji')}
-                  className="w-full flex items-center space-x-3 p-3 bg-green-50 hover:bg-green-100 border-2 border-green-200 rounded-lg transition-colors"
+                  className="w-full !bg-green-100 hover:!bg-green-200 !border-black !text-green-700 hover:!text-green-800"
                 >
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-cyan-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
-                    🎭
+                  <div className="flex items-center space-x-3">
+                    <span className="text-xl">🎭</span>
+                    <div className="text-left flex-1">
+                      <div className="font-bold text-sm">Change My Emoji</div>
+                      <div className="text-xs opacity-75">Pick a fun avatar</div>
+                    </div>
                   </div>
-                  <div className="text-left flex-1">
-                    <div className="font-bold text-green-700 text-sm">Change My Emoji</div>
-                    <div className="text-green-600 text-xs">Pick a fun avatar</div>
-                  </div>
-                </button>
+                </CoreButton>
 
                 {/* Change PIN Option */}
-                <button
+                <CoreButton
+                  variant="outline"
                   onClick={() => setActiveSubModal('pin')}
-                  className="w-full flex items-center space-x-3 p-3 bg-red-50 hover:bg-red-100 border-2 border-red-200 rounded-lg transition-colors"
+                  className="w-full !bg-red-100 hover:!bg-red-200 !border-black !text-red-700 hover:!text-red-800"
                 >
-                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
-                    🔐
+                  <div className="flex items-center space-x-3">
+                    <span className="text-xl">🔐</span>
+                    <div className="text-left flex-1">
+                      <div className="font-bold text-sm">Change My PIN</div>
+                      <div className="text-xs opacity-75">Update your secret code</div>
+                    </div>
                   </div>
-                  <div className="text-left flex-1">
-                    <div className="font-bold text-red-700 text-sm">Change My PIN</div>
-                    <div className="text-red-600 text-xs">Update your secret code</div>
-                  </div>
-                </button>
+                </CoreButton>
               </div>
             </Card>
           </div>
