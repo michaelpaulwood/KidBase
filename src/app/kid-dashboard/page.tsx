@@ -1,15 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Container, Section, Heading, Card, CoreButton } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
+import KidEditNameModal from '../../../components/ui/kid-edit-name-modal';
+import EmojiPickerModal from '../../../components/ui/emoji-picker-modal';
+import KidChangePinModal from '../../../components/ui/kid-change-pin-modal';
 import { useAuth } from '../../../hooks/useAuth';
 
 export default function KidDashboard() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, refreshUser } = useAuth();
   const router = useRouter();
+  const [activeSubModal, setActiveSubModal] = useState<'name' | 'emoji' | 'pin' | null>(null);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -88,7 +92,12 @@ export default function KidDashboard() {
   // Get selected kid info
   const selectedMemberJson = sessionStorage.getItem('selectedFamilyMember');
   const selectedMember = selectedMemberJson ? JSON.parse(selectedMemberJson) : null;
-  const kidName = selectedMember?.name || 'Kid';
+
+  // Get kidKey from sessionStorage (stored in kidData.key)
+  const kidKey = selectedMember?.kidData?.key || 'kid1';
+
+  // Use fresh family data for kid name (falls back to sessionStorage if needed)
+  const kidName = user?.kids?.[kidKey]?.name || selectedMember?.name || 'Kid';
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-pink-50 via-cyan-50 to-green-50">
@@ -124,128 +133,170 @@ export default function KidDashboard() {
             </p>
           </div>
 
-          {/* Kid Activity Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {/* Games & Fun */}
-            <Card className="text-center bg-gradient-to-br from-pink-100 to-pink-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-pink-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                🎮
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                Games & Fun
+          {/* Main Dashboard Cards - 3 Section Layout */}
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mb-12">
+            {/* General Information Card */}
+            <Card className="text-center bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100 border-4 border-purple-200" hover={false}>
+              <Heading level={3} size="title" className="mb-6 text-purple-700">
+                Your awesome stats:
               </Heading>
-              <p className="text-gray-700 mb-6">
-                Play educational games and have fun learning!
-              </p>
+
+              {/* Quick Stats */}
+              <div className="mb-6 space-y-2">
+                <div className="text-sm text-gray-700 space-y-1">
+                  <div>📅 5 days on KidBase</div>
+                  <div>🎉 3 activities completed</div>
+                  <div>🏆 2 achievements earned</div>
+                </div>
+              </div>
+
+              {/* Quick Activity Buttons */}
+              <div className="mb-6">
+                <p className="text-sm text-purple-600 font-medium mb-3">Quick Activities:</p>
+                <div className="flex justify-center space-x-2">
+                  <CoreButton variant="outline" className="text-xs px-3 py-1">
+                    🎮 Play
+                  </CoreButton>
+                  <CoreButton variant="outline" className="text-xs px-3 py-1">
+                    📚 Learn
+                  </CoreButton>
+                  <CoreButton variant="outline" className="text-xs px-3 py-1">
+                    🎨 Create
+                  </CoreButton>
+                </div>
+              </div>
+
               <CoreButton variant="primary" className="w-full">
-                Let&apos;s Play!
+                Explore Activities →
               </CoreButton>
             </Card>
 
-            {/* Learning Zone */}
-            <Card className="text-center bg-gradient-to-br from-cyan-100 to-cyan-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                📚
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                Learning Zone
-              </Heading>
-              <p className="text-gray-700 mb-6">
-                Discover new things and expand your knowledge!
-              </p>
-              <CoreButton variant="primary" className="w-full">
-                Start Learning
-              </CoreButton>
-            </Card>
-
-            {/* Creative Corner */}
-            <Card className="text-center bg-gradient-to-br from-green-100 to-green-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                🎨
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                Creative Corner
-              </Heading>
-              <p className="text-gray-700 mb-6">
-                Draw, create, and express your imagination!
-              </p>
-              <CoreButton variant="primary" className="w-full">
-                Create Art
-              </CoreButton>
-            </Card>
-
-            {/* Achievement Badges */}
-            <Card className="text-center bg-gradient-to-br from-yellow-100 to-yellow-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                🏆
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                My Achievements
-              </Heading>
-              <p className="text-gray-700 mb-6">
-                Check out all your awesome achievements!
-              </p>
-              <CoreButton variant="primary" className="w-full">
-                View Badges
-              </CoreButton>
-            </Card>
-
-            {/* Stories & Books */}
-            <Card className="text-center bg-gradient-to-br from-purple-100 to-purple-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                📖
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                Story Time
-              </Heading>
-              <p className="text-gray-700 mb-6">
-                Read amazing stories and fairy tales!
-              </p>
-              <CoreButton variant="primary" className="w-full">
-                Read Stories
-              </CoreButton>
-            </Card>
-
-            {/* Settings */}
-            <Card className="text-center bg-gradient-to-br from-orange-100 to-orange-200" hover={false}>
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-core flex items-center justify-center text-4xl mb-6 mx-auto">
-                ⚙️
-              </div>
-              <Heading level={3} size="title" className="mb-3">
-                My Settings
-              </Heading>
-              <p className="text-gray-700 mb-6">
-                Customize your dashboard just the way you like!
-              </p>
-              <CoreButton variant="primary" className="w-full">
-                Settings
-              </CoreButton>
-            </Card>
-          </div>
-
-          {/* Fun Daily Message */}
-          <Card className="text-center bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 border-4 border-purple-200" hover={false}>
-            <div className="max-w-2xl mx-auto">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
-                💫
-              </div>
-              <Heading level={3} size="heading" className="mb-4 text-purple-700">
+            {/* Enhanced Today's Super Message Card */}
+            <Card className="text-center bg-gradient-to-br from-purple-100 via-pink-100 to-cyan-100 border-4 border-purple-200" hover={false}>
+              <Heading level={3} size="title" className="mb-6 text-purple-700">
                 Today&apos;s Super Message!
               </Heading>
-              <p className="text-lg text-purple-600 font-medium mb-6">
+
+              <p className="text-sm text-purple-600 font-medium mb-6 leading-relaxed">
                 &quot;Every day is a new adventure waiting to be discovered. You&apos;re amazing, {kidName}!&quot;
               </p>
-              <div className="flex justify-center space-x-2">
+
+              {/* Mood Selector */}
+              <div className="mb-6">
+                <p className="text-sm text-purple-600 font-medium mb-3">How are you feeling today?</p>
+                <div className="flex justify-center space-x-3">
+                  <button className="text-2xl hover:scale-110 transition-transform" title="Great!">😊</button>
+                  <button className="text-2xl hover:scale-110 transition-transform" title="Sleepy">😴</button>
+                  <button className="text-2xl hover:scale-110 transition-transform" title="Curious">🤔</button>
+                  <button className="text-2xl hover:scale-110 transition-transform" title="Excited">🤩</button>
+                </div>
+              </div>
+
+              <div className="flex justify-center space-x-2 mb-4">
                 <span className="text-2xl">🌟</span>
                 <span className="text-2xl">🦄</span>
                 <span className="text-2xl">🌈</span>
                 <span className="text-2xl">⭐</span>
                 <span className="text-2xl">🎈</span>
               </div>
-            </div>
-          </Card>
+            </Card>
+
+            {/* My Settings Section */}
+            <Card className="text-center bg-gradient-to-br from-orange-100 to-orange-200 border-4 border-orange-200" hover={false}>
+              <Heading level={3} size="title" className="mb-6 text-orange-700">
+                My Settings
+              </Heading>
+
+              {/* Settings Options */}
+              <div className="space-y-3">
+                {/* Change Name Option */}
+                <button
+                  onClick={() => setActiveSubModal('name')}
+                  className="w-full flex items-center space-x-3 p-3 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 rounded-lg transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
+                    📝
+                  </div>
+                  <div className="text-left flex-1">
+                    <div className="font-bold text-blue-700 text-sm">Change My Name</div>
+                    <div className="text-blue-600 text-xs">Update what people call you</div>
+                  </div>
+                </button>
+
+                {/* Change Emoji Option */}
+                <button
+                  onClick={() => setActiveSubModal('emoji')}
+                  className="w-full flex items-center space-x-3 p-3 bg-green-50 hover:bg-green-100 border-2 border-green-200 rounded-lg transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-cyan-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
+                    🎭
+                  </div>
+                  <div className="text-left flex-1">
+                    <div className="font-bold text-green-700 text-sm">Change My Emoji</div>
+                    <div className="text-green-600 text-xs">Pick a fun avatar</div>
+                  </div>
+                </button>
+
+                {/* Change PIN Option */}
+                <button
+                  onClick={() => setActiveSubModal('pin')}
+                  className="w-full flex items-center space-x-3 p-3 bg-red-50 hover:bg-red-100 border-2 border-red-200 rounded-lg transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-xl shadow-brutal-sm">
+                    🔐
+                  </div>
+                  <div className="text-left flex-1">
+                    <div className="font-bold text-red-700 text-sm">Change My PIN</div>
+                    <div className="text-red-600 text-xs">Update your secret code</div>
+                  </div>
+                </button>
+              </div>
+            </Card>
+          </div>
+
         </Container>
       </Section>
+
+      {/* Kid Settings Modals */}
+      {user && (
+        <>
+          <KidEditNameModal
+            isOpen={activeSubModal === 'name'}
+            onClose={() => setActiveSubModal(null)}
+            onSuccess={() => {
+              refreshUser();
+              setActiveSubModal(null);
+            }}
+            userId={user.uid}
+            kidKey={kidKey}
+            currentName={kidName}
+          />
+
+          <EmojiPickerModal
+            isOpen={activeSubModal === 'emoji'}
+            onClose={() => setActiveSubModal(null)}
+            onSuccess={() => {
+              refreshUser();
+              setActiveSubModal(null);
+            }}
+            userId={user.uid}
+            kidKey={kidKey}
+            currentEmoji="😊"
+          />
+
+          <KidChangePinModal
+            isOpen={activeSubModal === 'pin'}
+            onClose={() => setActiveSubModal(null)}
+            onSuccess={() => {
+              refreshUser();
+              setActiveSubModal(null);
+            }}
+            userId={user.uid}
+            kidKey={kidKey}
+            kidName={kidName}
+          />
+        </>
+      )}
     </main>
   );
 }

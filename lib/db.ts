@@ -256,6 +256,40 @@ export const updateKidPin = async (
   }
 };
 
+// Update kid emoji/avatar
+export const updateKidEmoji = async (
+  familyId: string,
+  kidDisplayName: string,
+  newEmoji: string
+): Promise<void> => {
+  try {
+    // First, verify the kid exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.kids || !familyData.kids[kidDisplayName]) {
+      throw new Error('Kid not found');
+    }
+
+    // Validate emoji
+    if (!newEmoji || newEmoji.trim() === '') {
+      throw new Error('Emoji is required');
+    }
+
+    // Update only the emoji field of the specific kid
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      [`kids.${kidDisplayName}.emoji`]: newEmoji.trim(),
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating kid emoji:', error);
+    throw new Error('Failed to update kid emoji. Please try again.');
+  }
+};
+
 // Delete kid data
 export const deleteKidData = async (
   familyId: string,
