@@ -219,7 +219,8 @@ export const updateKidPin = async (
   familyId: string,
   kidDisplayName: string,
   currentPinHash: string,
-  newPinHash: string
+  newPinHash: string,
+  requireCurrentPin: boolean = true
 ): Promise<void> => {
   try {
     // First, verify the kid exists
@@ -234,8 +235,8 @@ export const updateKidPin = async (
 
     const kidData = familyData.kids[kidDisplayName];
 
-    // Verify current PIN matches
-    if (kidData.pinHash !== currentPinHash) {
+    // Verify current PIN matches (only if required)
+    if (requireCurrentPin && kidData.pinHash !== currentPinHash) {
       throw new Error('Current PIN is incorrect');
     }
 

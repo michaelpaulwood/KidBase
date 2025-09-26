@@ -99,7 +99,6 @@ export default function AddKidModal({ isOpen, onClose, onSuccess, userId }: AddK
           <PinInput
             value={pin}
             onChange={setPin}
-            placeholder="0000"
             autoFocus={false}
           />
         </div>
@@ -112,7 +111,6 @@ export default function AddKidModal({ isOpen, onClose, onSuccess, userId }: AddK
           <PinInput
             value={confirmPin}
             onChange={setConfirmPin}
-            placeholder="0000"
             autoFocus={false}
           />
         </div>
@@ -139,9 +137,9 @@ export default function AddKidModal({ isOpen, onClose, onSuccess, userId }: AddK
             type="submit"
             variant="primary"
             className="flex-1"
-            loading={isSubmitting}
+            disabled={isSubmitting}
           >
-            Add Kid
+            {isSubmitting ? 'Adding...' : 'Add Kid'}
           </CoreButton>
         </div>
       </form>

@@ -7,7 +7,7 @@ import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
 import AddKidModal from '../../../components/ui/add-kid-modal';
 import EditNameModal from '../../../components/ui/edit-name-modal';
-import ChangePinModal from '../../../components/ui/change-pin-modal';
+import ParentChangePinModal from '../../../components/ui/parent-change-pin-modal';
 import { useAuth } from '../../../hooks/useAuth';
 import { deleteKidData } from '../../../lib/db';
 
@@ -319,7 +319,7 @@ export default function Dashboard() {
 
       {/* Change Kid PIN Modal */}
       {user && kidToChangePin && (
-        <ChangePinModal
+        <ParentChangePinModal
           isOpen={isChangePinModalOpen}
           onClose={handleCancelChangePin}
           onSuccess={handleChangePinSuccess}

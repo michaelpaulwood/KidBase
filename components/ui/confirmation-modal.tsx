@@ -52,7 +52,7 @@ export default function ConfirmationModal({
     }
   };
 
-  const getConfirmButtonVariant = () => {
+  const getConfirmButtonVariant = (): 'primary' | 'secondary' | 'outline' | 'ghost' => {
     switch (variant) {
       case 'danger':
         return 'primary'; // Will be styled red

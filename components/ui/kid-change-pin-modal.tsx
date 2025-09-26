@@ -117,7 +117,6 @@ export default function KidChangePinModal({
           <PinInput
             value={currentPin}
             onChange={setCurrentPin}
-            placeholder="0000"
             autoFocus={true}
           />
         </div>
@@ -130,7 +129,6 @@ export default function KidChangePinModal({
           <PinInput
             value={newPin}
             onChange={setNewPin}
-            placeholder="0000"
             autoFocus={false}
           />
         </div>
@@ -143,7 +141,6 @@ export default function KidChangePinModal({
           <PinInput
             value={confirmPin}
             onChange={setConfirmPin}
-            placeholder="0000"
             autoFocus={false}
           />
         </div>

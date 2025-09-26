@@ -171,16 +171,18 @@ interface CoreButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  loading?: boolean;
 }
 
-export function CoreButton({ 
-  children, 
+export function CoreButton({
+  children,
   variant = 'primary',
   size = 'md',
   className,
   onClick,
   type = 'button',
-  disabled = false
+  disabled = false,
+  loading = false
 }: CoreButtonProps) {
   const variantClasses = {
     primary: 'bg-primary-500 hover:bg-primary-600 text-white shadow-brutal border-4 border-black hover:shadow-brutal-lg active:shadow-inset-brutal',
@@ -200,7 +202,7 @@ export function CoreButton({
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={cn(
         'font-bold font-display rounded-2xl transition-all duration-200 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0 active:translate-y-0',
         variantClasses[variant],
@@ -208,7 +210,7 @@ export function CoreButton({
         className
       )}
     >
-      {children}
+      {loading ? 'Loading...' : children}
     </button>
   );
 }
