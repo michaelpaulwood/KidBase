@@ -1,17 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Container, Section, Heading, Card, CoreButton, Badge, ConfirmationModal } from '../../../components/ui/design-system';
 import Loading from '../../../components/ui/loading';
 import Logo from '../../../components/ui/logo';
 import AddKidModal from '../../../components/ui/add-kid-modal';
 import EditNameModal from '../../../components/ui/edit-name-modal';
-import ParentChangePinModal from '../../../components/ui/parent-change-pin-modal';
+import KidChangePinModal from '../../../components/ui/kid-change-pin-modal';
+import ParentEditNameModal from '../../../components/ui/parent-edit-name-modal';
+import ParentPinChangeModal from '../../../components/ui/parent-pin-change-modal';
 import { useAuth } from '../../../hooks/useAuth';
 import { deleteKidData } from '../../../lib/db';
 
-export default function Dashboard() {
+function DashboardContent() {
   const { user, loading, signOut, refreshUser } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,6 +25,8 @@ export default function Dashboard() {
   const [kidToEdit, setKidToEdit] = useState<{ key: string; name: string } | null>(null);
   const [isChangePinModalOpen, setIsChangePinModalOpen] = useState(false);
   const [kidToChangePin, setKidToChangePin] = useState<{ key: string; name: string } | null>(null);
+  const [isParentEditNameModalOpen, setIsParentEditNameModalOpen] = useState(false);
+  const [isParentChangePinModalOpen, setIsParentChangePinModalOpen] = useState(false);
 
   // Redirect if user is not authenticated
   useEffect(() => {
@@ -131,6 +135,34 @@ export default function Dashboard() {
   const handleCancelChangePin = () => {
     setIsChangePinModalOpen(false);
     setKidToChangePin(null);
+  };
+
+  const handleEditParentName = () => {
+    setIsParentEditNameModalOpen(true);
+  };
+
+  const handleParentEditNameSuccess = async () => {
+    // Refresh family data to show the updated name
+    await refreshUser();
+    setIsParentEditNameModalOpen(false);
+  };
+
+  const handleCancelParentEditName = () => {
+    setIsParentEditNameModalOpen(false);
+  };
+
+  const handleChangeParentPin = () => {
+    setIsParentChangePinModalOpen(true);
+  };
+
+  const handleParentChangePinSuccess = async () => {
+    // Refresh family data (PIN changes are internal, UI doesn't need to update)
+    await refreshUser();
+    setIsParentChangePinModalOpen(false);
+  };
+
+  const handleCancelParentChangePin = () => {
+    setIsParentChangePinModalOpen(false);
   };
 
   // Show loading while checking auth state
@@ -252,7 +284,25 @@ export default function Dashboard() {
                   {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div className="flex-1">
-                  <Heading level={4} size="title" className="mb-1">{user.displayName || 'User'}</Heading>
+                  <div className="flex items-center justify-between mb-1">
+                    <Heading level={4} size="title" className="mb-0">{user.displayName || 'User'}</Heading>
+                    <div className="flex items-center space-x-3">
+                      <button
+                        className="text-blue-600 hover:text-blue-800 text-xl transition-colors"
+                        title="Edit parent name"
+                        onClick={handleEditParentName}
+                      >
+                        📝
+                      </button>
+                      <button
+                        className="text-green-600 hover:text-green-800 text-xl transition-colors"
+                        title="Change PIN"
+                        onClick={handleChangeParentPin}
+                      >
+                        🔐
+                      </button>
+                    </div>
+                  </div>
                   <p className="text-gray-600 mb-3">{user.email}</p>
                   <Badge variant="success">Active Account</Badge>
                 </div>
@@ -319,13 +369,35 @@ export default function Dashboard() {
 
       {/* Change Kid PIN Modal */}
       {user && kidToChangePin && (
-        <ParentChangePinModal
+        <KidChangePinModal
           isOpen={isChangePinModalOpen}
           onClose={handleCancelChangePin}
           onSuccess={handleChangePinSuccess}
           userId={user.uid}
           kidKey={kidToChangePin.key}
           kidName={kidToChangePin.name}
+        />
+      )}
+
+      {/* Parent Edit Name Modal */}
+      {user && (
+        <ParentEditNameModal
+          isOpen={isParentEditNameModalOpen}
+          onClose={handleCancelParentEditName}
+          onSuccess={handleParentEditNameSuccess}
+          userId={user.uid}
+          currentName={user.displayName || 'Parent'}
+        />
+      )}
+
+      {/* Parent Change PIN Modal */}
+      {user && user.parent && (
+        <ParentPinChangeModal
+          isOpen={isParentChangePinModalOpen}
+          onClose={handleCancelParentChangePin}
+          onSuccess={handleParentChangePinSuccess}
+          userId={user.uid}
+          parentName={user.parent.name || user.displayName || 'Parent'}
         />
       )}
 
@@ -342,5 +414,13 @@ export default function Dashboard() {
         variant="danger"
       />
     </main>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loading size="lg" text="Loading dashboard..." /></div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }

@@ -334,6 +334,79 @@ export const completeFamilyOnboarding = async (familyId: string): Promise<void> 
   }
 };
 
+// Update parent name
+export const updateParentName = async (
+  familyId: string,
+  newName: string
+): Promise<void> => {
+  try {
+    // First, verify the family exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.parent) {
+      throw new Error('Parent data not found');
+    }
+
+    // Validate new name
+    if (!newName.trim()) {
+      throw new Error('Parent name cannot be empty');
+    }
+
+    // Update only the name field of the parent
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      'parent.name': newName.trim(),
+      displayName: newName.trim(), // Also update family displayName for consistency
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating parent name:', error);
+    throw new Error('Failed to update parent name. Please try again.');
+  }
+};
+
+// Update parent PIN (with current PIN verification)
+export const updateParentPin = async (
+  familyId: string,
+  currentPinHash: string,
+  newPinHash: string
+): Promise<void> => {
+  try {
+    // First, verify the family exists
+    const familyData = await getFamilyDocument(familyId);
+    if (!familyData) {
+      throw new Error('Family not found');
+    }
+
+    if (!familyData.parent) {
+      throw new Error('Parent data not found');
+    }
+
+    // Verify current PIN matches
+    if (familyData.parent.pinHash !== currentPinHash) {
+      throw new Error('Current PIN is incorrect');
+    }
+
+    // Validate new PIN hash
+    if (!newPinHash) {
+      throw new Error('New PIN is required');
+    }
+
+    // Update only the PIN field of the parent
+    const familyRef = doc(db, COLLECTIONS.FAMILIES, familyId);
+    await updateDoc(familyRef, {
+      'parent.pinHash': newPinHash,
+      lastLoginAt: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error updating parent PIN:', error);
+    throw new Error('Failed to update parent PIN. Please try again.');
+  }
+};
+
 // Batch operations helper
 export const batchWrite = async (operations: Array<() => Promise<void>>): Promise<void> => {
   try {

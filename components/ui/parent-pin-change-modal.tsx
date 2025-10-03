@@ -5,15 +5,14 @@ import Modal from './modal';
 import { Heading, CoreButton } from './design-system';
 import PinInput from './pin-input';
 import { hashPin } from '../../lib/utils';
-import { updateKidPin } from '../../lib/db';
+import { updateParentPin } from '../../lib/db';
 
 interface ParentChangePinModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
   userId: string;
-  kidKey: string;
-  kidName: string;
+  parentName: string;
 }
 
 export default function ParentChangePinModal({
@@ -21,9 +20,9 @@ export default function ParentChangePinModal({
   onClose,
   onSuccess,
   userId,
-  kidKey,
-  kidName
+  parentName
 }: ParentChangePinModalProps) {
+  const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const [error, setError] = useState('');
@@ -32,6 +31,7 @@ export default function ParentChangePinModal({
   // Clear form when modal opens/closes
   useEffect(() => {
     if (!isOpen) {
+      setCurrentPin('');
       setNewPin('');
       setConfirmPin('');
       setError('');
@@ -40,12 +40,20 @@ export default function ParentChangePinModal({
   }, [isOpen]);
 
   const validateForm = () => {
+    if (!currentPin) {
+      setError('Please enter your current PIN');
+      return false;
+    }
+    if (currentPin.length !== 4) {
+      setError('Current PIN must be exactly 4 digits');
+      return false;
+    }
     if (!newPin) {
       setError('Please enter a new PIN');
       return false;
     }
     if (newPin.length !== 4) {
-      setError('PIN must be exactly 4 digits');
+      setError('New PIN must be exactly 4 digits');
       return false;
     }
     if (!confirmPin) {
@@ -54,6 +62,10 @@ export default function ParentChangePinModal({
     }
     if (newPin !== confirmPin) {
       setError('PIN confirmation does not match');
+      return false;
+    }
+    if (currentPin === newPin) {
+      setError('New PIN must be different from current PIN');
       return false;
     }
     return true;
@@ -68,11 +80,12 @@ export default function ParentChangePinModal({
     setError('');
 
     try {
-      // Hash the new PIN
+      // Hash both current and new PINs
+      const currentPinHash = await hashPin(currentPin);
       const newPinHash = await hashPin(newPin);
 
-      // Update PIN without requiring current PIN verification (parent override)
-      await updateKidPin(userId, kidKey, '', newPinHash, false);
+      // Update PIN with current PIN verification (3-step security)
+      await updateParentPin(userId, currentPinHash, newPinHash);
 
       onSuccess();
     } catch (err) {
@@ -87,15 +100,29 @@ export default function ParentChangePinModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Heading size="heading" className="text-center">
-          Reset PIN for {kidName}
-        </Heading>
-
-        <div className="space-y-4 text-center">
-          <p className="text-gray-600 font-sans">
-            As a parent, you can reset {kidName}&apos;s PIN without knowing their current one.
-            This is a security feature for when they forget their PIN.
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-teal-500 rounded-full flex items-center justify-center text-3xl mb-4 mx-auto">
+            🔐
+          </div>
+          <Heading size="heading" className="text-center">
+            Change PIN for {parentName}
+          </Heading>
+          <p className="text-gray-600 font-sans mt-2">
+            For security, you must verify your current PIN first.
           </p>
+        </div>
+
+        {/* Current PIN Input */}
+        <div>
+          <label className="block text-sm font-medium font-sans text-gray-700 mb-2">
+            Current 4-Digit PIN
+          </label>
+          <PinInput
+            value={currentPin}
+            onChange={setCurrentPin}
+            autoFocus={true}
+            error={!!error && error.includes('Current')}
+          />
         </div>
 
         {/* New PIN Input */}
@@ -106,8 +133,8 @@ export default function ParentChangePinModal({
           <PinInput
             value={newPin}
             onChange={setNewPin}
-            autoFocus={true}
-            error={!!error && error.includes('PIN')}
+            autoFocus={false}
+            error={!!error && (error.includes('New PIN') || error.includes('different'))}
           />
         </div>
 
@@ -148,7 +175,7 @@ export default function ParentChangePinModal({
             className="flex-1"
             loading={isSubmitting}
           >
-            Reset PIN
+            Change PIN
           </CoreButton>
         </div>
       </form>
