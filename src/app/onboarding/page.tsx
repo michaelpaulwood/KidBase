@@ -29,6 +29,14 @@ export default function OnboardingPage() {
   // Determine current step: Step 1 (parent setup) or Step 2 (kids setup)
   const currentStep = user?.onboardingStep || 1;
 
+  // Helper function to clear kid form
+  const clearKidForm = () => {
+    setKidName('');
+    setKidPin('');
+    setKidConfirmPin('');
+    setError(null);
+  };
+
   // Redirect if user is not authenticated
   useEffect(() => {
     if (!loading && !user) {
@@ -87,8 +95,8 @@ export default function OnboardingPage() {
     }
   };
 
-  // Handle Step 2: Kids Account Setup -> Complete Onboarding
-  const handleCompleteOnboarding = async () => {
+  // Handle Step 2: Add Another Kid (without completing onboarding)
+  const handleAddAnotherKid = async () => {
     if (!user) return;
 
     try {
@@ -97,7 +105,7 @@ export default function OnboardingPage() {
 
       // Validate kid form
       if (!kidName.trim()) {
-        throw new Error('Please enter the kid&apos;s name');
+        throw new Error('Please enter the kid\'s name');
       }
 
       if (kidPin.length !== 4) {
@@ -117,6 +125,48 @@ export default function OnboardingPage() {
 
       // Save kid data
       await saveKidData(user.uid, kidName.trim(), kidPinHash);
+
+      // Refresh the auth context to show updated kids count
+      await refreshUser();
+
+      // Clear form for next kid
+      clearKidForm();
+
+    } catch (error: unknown) {
+      console.error('Add kid error:', error);
+      setError((error as Error).message || 'Failed to add kid. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Step 2: Kids Account Setup -> Complete Onboarding
+  const handleCompleteOnboarding = async () => {
+    if (!user) return;
+
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // If form has data, save it first before completing
+      if (kidName.trim()) {
+        // Validate kid form
+        if (kidPin.length !== 4) {
+          throw new Error('Kid PIN must be exactly 4 digits');
+        }
+
+        if (kidPin !== kidConfirmPin) {
+          throw new Error('Kid PINs do not match');
+        }
+
+        if (!/^\d{4}$/.test(kidPin)) {
+          throw new Error('Kid PIN must contain only numbers');
+        }
+
+        // Hash the kid PIN and save
+        const kidPinHash = await hashPin(kidPin);
+        await saveKidData(user.uid, kidName.trim(), kidPinHash);
+      }
 
       // Complete the onboarding process
       await completeFamilyOnboarding(user.uid);
@@ -333,6 +383,15 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
+              {/* Kids Counter Display */}
+              {user?.kids && Object.keys(user.kids).length > 0 && (
+                <div className="mb-6 text-center">
+                  <Badge variant="success" className="bg-green-100 text-green-800 border-green-200">
+                    ✅ {Object.keys(user.kids).length} kid{Object.keys(user.kids).length > 1 ? 's' : ''} added
+                  </Badge>
+                </div>
+              )}
+
               {/* Kid Setup Form */}
               <div className="space-y-6 mb-8">
                 {/* Kid Name Field */}
@@ -385,12 +444,23 @@ export default function OnboardingPage() {
                 </div>
               </div>
 
+              {/* Add Another Child Button */}
+              <CoreButton
+                variant="secondary"
+                size="lg"
+                className="w-full mb-4"
+                disabled={isLoading || !kidName.trim() || kidPin.length !== 4 || kidConfirmPin.length !== 4}
+                onClick={handleAddAnotherKid}
+              >
+                {isLoading ? 'Adding Kid...' : 'Add Another Child 👶'}
+              </CoreButton>
+
               {/* Complete Setup Button */}
               <CoreButton
                 variant="primary"
                 size="lg"
                 className="w-full"
-                disabled={isLoading || !kidName.trim() || kidPin.length !== 4 || kidConfirmPin.length !== 4}
+                disabled={isLoading}
                 onClick={handleCompleteOnboarding}
               >
                 {isLoading ? 'Completing Setup...' : 'Complete Family Setup 🚀'}
@@ -399,7 +469,7 @@ export default function OnboardingPage() {
               {/* Additional Information */}
               <div className="mt-6 text-center">
                 <p className="text-sm font-sans text-gray-500">
-                  Step 2 of 2 - This will activate your dashboard and family features
+                  Step 2 of 2 - Add all your kids, then complete setup to activate your dashboard
                 </p>
               </div>
             </Card>
